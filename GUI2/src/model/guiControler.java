@@ -36,9 +36,12 @@ public class guiControler {
     }
     
     public void setDesierdTask(int DesierdTask){
-        model.choiseOfTask(DesierdTask);
-        upDateInterface();
-//        Overview();
+        if (DesierdTask >=0) {
+             gui.SetTabsForLiveMode();
+             model.choiseOfTask(DesierdTask);
+             upDateInterface();
+             Overview();
+        }
     }
     
     public void ChoiceOfOrg(String name){
@@ -106,29 +109,8 @@ public class guiControler {
       }
    
       public void upDateInterface(){
-          ArrayList<TSN> tempTsn  = new ArrayList<>();
-          ArrayList<Interface> tempI = new ArrayList<>();
-          ArrayList<String> Interface = new ArrayList<>();
-          //ArrayList<priorityAndQulaityLevels> TypeList
-         // gui.makeBrach(InterfaceTypes.Message, parent);
-         tempTsn.addAll(model.getInterfaceTypes());
-          for (int i = 0; i < tempTsn.size(); i++) {
-              tempI.addAll(tempTsn.get(i).getInterface());
-          }
-          for (int i = 0; i < tempI.size(); i++) {
-              
-              for (int j = 0; j < 10; j++) {
-                   if (tempI.get(i).getName().compareToIgnoreCase(tempI.get(j).getName()) != 0) {
-                  Interface.add(tempI.get(i).getName());
-              }
-                  
-              }
-              
-              
-          }
-          for (int i = 0; i < Interface.size(); i++) {
-                System.out.println(Interface.get(i).toString());
-          }
+         
+          gui.InterfaceScreen();
       }
     
 }

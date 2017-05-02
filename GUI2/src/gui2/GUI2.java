@@ -382,20 +382,12 @@ public void SetColor(){
 public void InterfaceScreen(){  
      
     BorderPane scen = new BorderPane();    
-        TreeItem<String> root,tracking,message,Video;
+        TreeItem<String> root;
         
         root = new TreeItem<>();
         root.setExpanded(true);
-      
-        tracking = makeBrach(InterfaceTypes.Tracking.toString(), root);
-       /* makeBrach("BFT", tracking);
-        makeBrach("GPS", tracking);
-        makeBrach("Sat nav", tracking);*/
         
-        message = makeBrach(InterfaceTypes.Message.toString(), root);
-        Video  = makeBrach(InterfaceTypes.Video.toString(), root);
-       /* makeBrach("Car", landViecal);
-        makeBrach("Picup", landViecal); */
+      makeTreeAreaInterface(root);
         
         TreeView tree = new TreeView<>(root);
         tree.setShowRoot(false);
@@ -413,6 +405,14 @@ public void InterfaceScreen(){
         parent.getChildren().add(item);
         return item;
     }
+  
+  public void makeTreeAreaInterface(TreeItem<String> parentItem){
+      for (int i = 0; i < InterfaceTypes.values().length; i++) {
+          TreeItem<String> item = new TreeItem(InterfaceTypes.getTypes(i));
+          item.setExpanded(true);
+          parentItem.getChildren().add(item);
+      }
+  }
   
   public void makeNewTabView(String Name){
       Tab item = new Tab(Name);
