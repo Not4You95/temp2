@@ -448,8 +448,10 @@ public class GUI2 extends Application {
   
   public void makeTreeSubArea(TSN node){
       TreeItem<String> item = new TreeItem<>(node.getName());
-      for (int i = 0; i <ListOfNodesArea.size(); i++) {
-          
+      for (int i = 0; i <ListOfNodesArea.size(); i++) {          
+          if (ListOfNodesArea.get(i).toString().toLowerCase().contains(node.getType().toString().toLowerCase())) {
+              ListOfNodesArea.get(i).getChildren().add(item);
+          }
       }
   }
   
