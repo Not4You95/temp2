@@ -134,10 +134,10 @@ public class GUImodel {
     public TSN getNode(String name){
         if (taskTemp != null) {
             for (int i = 0; i < taskTemp.getNoder().size(); i++) {
-                System.out.println("---------------------------------------------------------");
+               /* System.out.println("---------------------------------------------------------");
                 System.out.println(taskTemp.getNoder().get(i).getName());
                 System.out.println(name);
-                System.out.println(name.toLowerCase().contains(taskTemp.getNoder().get(i).getName().toLowerCase()));
+                System.out.println(name.toLowerCase().contains(taskTemp.getNoder().get(i).getName().toLowerCase()));*/
             if (name.toLowerCase().contains(taskTemp.getNoder().get(i).getName().toLowerCase())) {
                 return taskTemp.getNoder().get(i);
             }
@@ -146,7 +146,10 @@ public class GUImodel {
         return null;
     }
     
-    
+    public Interface getInterface(String name){
+        
+        return null;    
+}
       public void test() {
           ArrayList<TSN> temp = new ArrayList<TSN>();
         ArrayList<Orginasation> orgList = new ArrayList<Orginasation>();
