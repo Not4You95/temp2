@@ -40,6 +40,7 @@ public class guiControler {
              gui.SetTabsForLiveMode();
              model.choiseOfTask(DesierdTask);
              upDateInterface();
+             upDateNode();
              Overview();
         }
     }
@@ -107,7 +108,9 @@ public class guiControler {
           UppdateScreen();
           gui.upDateModeState(Plan, Live, Simulate);
       }
-   
+   public void upDateNode(){
+       gui.NodeTabScreen();
+   }
       public void upDateInterface(){
          
           gui.InterfaceScreen();

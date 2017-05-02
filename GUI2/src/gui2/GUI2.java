@@ -39,6 +39,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.InterfaceTypes;
+import model.TSNTypes;
 import model.Task;
 import model.guiControler;
 import model.priorityAndQulaityLevels;
@@ -381,7 +382,7 @@ public void SetColor(){
     }
 public void InterfaceScreen(){  
      
-    BorderPane scen = new BorderPane();    
+       
         TreeItem<String> root;
         
         root = new TreeItem<>();
@@ -394,9 +395,27 @@ public void InterfaceScreen(){
         tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});
             
         
-        scen.setCenter(tree);     
+        
     
     Interface.setContent(tree);
+}
+public void NodeTabScreen(){
+     
+        TreeItem<String> root;
+        
+        root = new TreeItem<>();
+        root.setExpanded(true);
+        
+      makeTreeAreaNode(root);
+        
+        TreeView tree = new TreeView<>(root);
+        tree.setShowRoot(false);
+        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});
+            
+        
+        
+    
+    Nodes.setContent(tree);
 }
 
   public TreeItem<String> makeBrach(String titel,TreeItem<String> parent){
@@ -407,8 +426,15 @@ public void InterfaceScreen(){
     }
   
   public void makeTreeAreaInterface(TreeItem<String> parentItem){
-      for (int i = 0; i < InterfaceTypes.values().length; i++) {
-          TreeItem<String> item = new TreeItem(InterfaceTypes.getTypes(i));
+      for (int i = 1; i < InterfaceTypes.values().length+1; i++) {
+          TreeItem<String> item = new TreeItem(InterfaceTypes.getTypes(i).toString());
+          item.setExpanded(true);
+          parentItem.getChildren().add(item);
+      }
+  }
+  public void makeTreeAreaNode(TreeItem<String> parentItem){
+      for (int i = 1; i < TSNTypes.values().length+1; i++) {
+          TreeItem<String> item = new TreeItem(TSNTypes.getTypes(i).toString());
           item.setExpanded(true);
           parentItem.getChildren().add(item);
       }
