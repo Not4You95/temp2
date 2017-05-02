@@ -124,7 +124,11 @@ public class GUImodel {
         System.out.println("Task name: "+taskTemp.getName());
     }
     
-    
+    public ArrayList<TSN> getNodes(){
+        ArrayList<TSN> temp  = new ArrayList<>();
+        temp.addAll(taskTemp.getNoder());
+        return temp;
+    }
     
     
       public void test() {
@@ -159,21 +163,29 @@ Control – System Management*/
 
         
         TSN one = new TSN("UAV ISR Global");
+        one.setType(TSNTypes.UAV);
         one.addInterfaceArray(listInter);
         TSN two = new TSN("Datafusion M");
         two.addInterfaceArray(listInter);
+        two.setType(TSNTypes.Radar);
         TSN three = new TSN("Datafusion S");
         three.addInterfaceArray(listInter);
+        three.setType(TSNTypes.Radar);
         TSN FOUR = new TSN("Troups");
         FOUR.addInterfaceArray(listInter);
+        FOUR.setType(TSNTypes.Troups);
         TSN five = new TSN("Military Hospital");
         five.addInterfaceArray(listInter);
+        five.setType(TSNTypes.Hospital);
         TSN six = new TSN("BMS/Soldier");
         six.addInterfaceArray(listInter);
+        six.setType(TSNTypes.Troups);
         TSN seven = new TSN("Deployed c2");
         seven.addInterfaceArray(listInter);
+        seven.setType(TSNTypes.Comand_Central);
         TSN eight = new TSN("UAV Local");
-        seven.addInterfaceArray(listInter);
+        eight.addInterfaceArray(listInter);
+        eight.setType(TSNTypes.UAV);
         //System.out.println(one.getName());
         
         System.out.println("-----------------------------------------------");

@@ -48,9 +48,8 @@ public class guiControler {
     public void ChoiceOfOrg(String name){
         
        model.SetOrgName(name);
-       System.out.println("Contoler name: "+name);
-       
-       //Overview();
+       System.out.println("Contoler name: "+name);       
+      
        UppdateScreen();      
     }
     
@@ -109,7 +108,7 @@ public class guiControler {
           gui.upDateModeState(Plan, Live, Simulate);
       }
    public void upDateNode(){
-       gui.NodeTabScreen();
+       gui.NodeTabScreen(model.getNodes());
    }
       public void upDateInterface(){
          

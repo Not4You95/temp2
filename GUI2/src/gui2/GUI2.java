@@ -43,7 +43,7 @@ import model.TSNTypes;
 import model.Task;
 import model.guiControler;
 import model.priorityAndQulaityLevels;
-
+import model.*;
 /**
  *
  * @author jonas
@@ -399,14 +399,14 @@ public void InterfaceScreen(){
     
     Interface.setContent(tree);
 }
-public void NodeTabScreen(){
+public void NodeTabScreen(ArrayList<TSN> noder){
      
         TreeItem<String> root;
         
         root = new TreeItem<>();
         root.setExpanded(true);
         
-      makeTreeAreaNode(root);
+       makeTreeAreaNode(root);
         
         TreeView tree = new TreeView<>(root);
         tree.setShowRoot(false);
