@@ -22,7 +22,7 @@ public class GUImodel {
     private File filename;
     private String OrgName;
     private Orginasation OrgTemp;
-    private Task taskTemp;
+    private Task taskTemp = null;
     private int taskLevel;
     
     
@@ -128,6 +128,18 @@ public class GUImodel {
         ArrayList<TSN> temp  = new ArrayList<>();
         temp.addAll(taskTemp.getNoder());
         return temp;
+    }
+    
+    public TSN getNode(String name){
+        if (taskTemp != null) {
+            for (int i = 0; i < taskTemp.getNoder().size(); i++) {
+            System.out.println(taskTemp.getNoder().get(i).getName().toLowerCase().contains(name.toLowerCase()));
+            if (taskTemp.getNoder().get(i).getName().toLowerCase().contains(name.toLowerCase())) {
+                return taskTemp.getNoder().get(i);
+            }
+        }
+        }
+        return null;
     }
     
     

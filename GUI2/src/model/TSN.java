@@ -16,6 +16,7 @@ import java.util.jar.Attributes;
 public class TSN implements Serializable{
 private String name;
 private TSNTypes type;
+private String info;
 private ArrayList<Interface> ListOfInterface;
 
 
@@ -98,5 +99,19 @@ public TSN(){
      */
     public void setType(TSNTypes type) {
         this.type = type;
+    }
+
+    /**
+     * @return the info
+     */
+    public String getInfo() {
+        return info;
+    }
+
+    /**
+     * @param info the info to set
+     */
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

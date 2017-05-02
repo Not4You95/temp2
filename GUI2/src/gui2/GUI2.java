@@ -5,6 +5,7 @@
  */
 package gui2;
 
+import com.sun.javaws.Main;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -32,6 +33,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -132,7 +135,7 @@ public class GUI2 extends Application {
     
     }
     
-   public void SetTabsForLiveMode(){
+  public void SetTabsForLiveMode(){
        tabPane.getTabs().clear();
         Overview = new Tab("Overwiew");
         Interface = new Tab("Comunication type");
@@ -145,8 +148,8 @@ public class GUI2 extends Application {
         
         
    }
-    
-public void ButtonTopLine(){
+  
+  public void ButtonTopLine(){
     ButtonOverview = new Button("Overview");
     ButtonOverview.addEventHandler(ActionEvent.ACTION, new ButtonChoice());
     ButtonInterface = new Button("Interface");
@@ -155,7 +158,8 @@ public void ButtonTopLine(){
     ButtonNodes.addEventFilter(ActionEvent.ACTION, new ButtonChoice());
     
 }
-public void ModeMenu(){
+  
+  public void ModeMenu(){
     ModeMenu = new Menu("_Mode");
     Plan = new CheckMenuItem("Plan");
     Plan.addEventHandler(ActionEvent.ACTION, new ModeMenuChoice());
@@ -167,7 +171,7 @@ public void ModeMenu(){
 
 }   
 
-public void TaskMenu(){
+  public void TaskMenu(){
     SetTaskmMenu = new Menu("_Task");
     SetPrioritForAllTask = new MenuItem("Set Priority for all task");
     SetPrioritForAllTask.addEventHandler(ActionEvent.ACTION, new MenuTaskChoice());
@@ -177,7 +181,7 @@ public void TaskMenu(){
         
 }
 
-public void InterfaceMenu(){
+  public void InterfaceMenu(){
     SetInterfacemMenu = new Menu("_Interface");
     SetPriorityForOneTask = new MenuItem("Set Priority");
     SetPriorityForOneTask.addEventHandler(ActionEvent.ACTION, new menuInterfaceChoice());
@@ -186,14 +190,14 @@ public void InterfaceMenu(){
     SetInterfacemMenu.getItems().addAll(SetPriorityForOneTask,SetQualityForOneTask);
 }
 
-public void SendMenu(){
+  public void SendMenu(){
     SendMenu = new Menu("_Send");
     SendToSystem = new Menu("Send to system");
     SendToSystem.addEventHandler(ActionEvent.ACTION, new MenuSendChoice());
     SendMenu.getItems().add(SendToSystem);
 }
 
-public void P_2_PMenu(){
+  public void P_2_PMenu(){
     P_2_P_Menu = new Menu("_P_2_P");
     P_2_P_Menu.addEventHandler(ActionEvent.ACTION, new MenuP_2_PChoice());
     P_2_P_MenuItem = new MenuItem("P-2-P");
@@ -201,7 +205,7 @@ public void P_2_PMenu(){
     P_2_P_Menu.getItems().add(P_2_P_MenuItem);
 }
 
-public void OrgMenu(ArrayList<String> TasknName){
+  public void OrgMenu(ArrayList<String> TasknName){
     
     choiceBox = new ComboBox<>();
     //choiceBox.setStyle("-fx-Background-color: black");    
@@ -210,19 +214,21 @@ public void OrgMenu(ArrayList<String> TasknName){
     choiceBox.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> Contolloer.ChoiceOfOrg(newvalue));
     
 }
-public void setListOfTask(){
+  
+  public void setListOfTask(){
     ListOfTasks = new ListView<String>();
     ListOfTasks.setPrefSize(100, 280);
     ListOfTasks.getSelectionModel().selectedIndexProperty().addListener((v,oldvalue,newvalue)-> Contolloer.setDesierdTask((int) newvalue));
     
 }
-public void UppdateListOfTask(ArrayList<String> task){
+  
+  public void UppdateListOfTask(ArrayList<String> task){
      ListOfTasks.getItems().clear();
      ListOfTasks.getItems().addAll(task);
    
 }
 
-public void SetColor(){
+  public void SetColor(){
     TopLine.setStyle("-fx-background-color: #ccccb3");
     TopLineLine2.setStyle("-fx-background-color: #ccccb3");
     menulist.setStyle("-fx-background-color: #ccccb3");
@@ -233,13 +239,7 @@ public void SetColor(){
 
 }    
 
- 
-
-  
-
-
-
-    private class ButtonChoice implements EventHandler<ActionEvent>{
+  private class ButtonChoice implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
@@ -257,7 +257,7 @@ public void SetColor(){
         }
     }
 
-    private class ModeMenuChoice implements EventHandler<ActionEvent>{
+  private class ModeMenuChoice implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
@@ -279,12 +279,13 @@ public void SetColor(){
         }
     }
     
-    public void upDateModeState(boolean Plan,boolean Live,boolean Simulate){
+  public void upDateModeState(boolean Plan,boolean Live,boolean Simulate){
         this.Plan.setSelected(Plan);
         this.Live.setSelected(Live);
         this.Simulate.setSelected(Simulate);
     }
-    private class MenuP_2_PChoice implements EventHandler<ActionEvent>{
+    
+  private class MenuP_2_PChoice implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
@@ -297,7 +298,7 @@ public void SetColor(){
         }
     }
 
-    private class MenuSendChoice implements EventHandler<ActionEvent>{
+  private class MenuSendChoice implements EventHandler<ActionEvent>{
 
        
 
@@ -308,13 +309,9 @@ public void SetColor(){
                 
             }
         }
-    }
-   
+    }  
 
-//////////////////////////////////////////////////////////////////////////
-    
-
-    private class MenuTaskChoice implements EventHandler<ActionEvent>{
+  private class MenuTaskChoice implements EventHandler<ActionEvent>{
 
         
         @Override
@@ -330,7 +327,7 @@ public void SetColor(){
         }
     }
 
-    private class menuInterfaceChoice implements EventHandler<ActionEvent>{
+  private class menuInterfaceChoice implements EventHandler<ActionEvent>{
 
        
         
@@ -343,10 +340,9 @@ public void SetColor(){
                 System.out.println("Set Quality\n");
             }
         }
-    }
+    }   
     
-    
-    public void  OverViewSceen(priorityAndQulaityLevels GlobalPriorityIput,priorityAndQulaityLevels GlobalQualityInput,String info){
+  public void  OverViewSceen(priorityAndQulaityLevels GlobalPriorityIput,priorityAndQulaityLevels GlobalQualityInput,String info){
         Net = new GridPane();
         CenterHBox = new HBox();
         CentetVBox = new VBox();
@@ -383,7 +379,8 @@ public void SetColor(){
         Overview.setContent(CenterHBox);
         
     }
-public void InterfaceScreen(){  
+  
+  public void InterfaceScreen(){  
      
        
         TreeItem<String> root;
@@ -402,7 +399,8 @@ public void InterfaceScreen(){
     
     Interface.setContent(tree);
 }
-public void NodeTabScreen(ArrayList<TSN> noder){
+  
+  public void NodeTabScreen(ArrayList<TSN> noder){
      
         TreeItem<String> root;
         
@@ -438,6 +436,7 @@ public void NodeTabScreen(ArrayList<TSN> noder){
           parentItem.getChildren().add(item);
       }
   }
+  
   public void makeTreeAreaNode(TreeItem<String> parentItem){
       for (int i = 1; i < TSNTypes.values().length+1; i++) {
           TreeItem<String> item = new TreeItem(TSNTypes.getTypes(i).toString());
@@ -553,9 +552,15 @@ public void NodeTabScreen(ArrayList<TSN> noder){
       GridPane pnet = new GridPane();
       Label nod1 = new Label("Node 1");
       Label nod2 = new Label("Node 2");
+      Label comType = new Label("Com type");
       TextField textnode1 = new TextField("Node 1");
       TextField textnode2 = new TextField("Node 2");
       TextField textComType = new TextField("Comunication type");
+      ComboBox<String> priBox = new ComboBox<>();
+      priBox.setPromptText("Priority");
+      ComboBox<String> QualbBox = new ComboBox<>();
+      QualbBox.setPromptText("Quality");
+      Button ok = new Button("Ok");
       
       pnet.setHgap(20);
       pnet.setVgap(20);
@@ -569,12 +574,56 @@ public void NodeTabScreen(ArrayList<TSN> noder){
       pnet.add(textnode2, 2, 2);
       
       ///Comunication type
-      pnet.add(textComType, 2, 4);
+      pnet.add(textComType, 2, 3);
+      pnet.add(comType, 1, 3);
       
+      ///ChoiceBox
+      pnet.add(priBox, 1, 4);
+      pnet.add(QualbBox, 2, 4);
+      
+      //Button
+      pnet.add(ok, 3, 4);
       tab.setContent(pnet);
       
       tabPane.getTabs().add(tab);
       
+  }
+  
+  public void nodeAndComtypeTab(String Name,String info){
+      Tab tab = new Tab(Name);
+      GridPane netPane = new GridPane();
+      Label PriLabel = new Label("Priority: ");
+      Label QuaLabel = new Label("Quality: ");
+      Label infoLabel = new Label("Information");
+      ComboBox<String> PriBox = new ComboBox<>();
+      PriBox.setPromptText("Priority");
+      ComboBox<String> QulBox = new ComboBox<>();
+      QulBox.setPromptText("Quality");
+      TextArea text = new TextArea(info);
+       text.setMaxWidth(150);
+       text.setMaxHeight(110);
+       text.setPrefColumnCount(10);
+       text.setWrapText(true);
+      //ImageView Image = new ImageView();
+      //Image image1 = new Image(Main.class.getResourceAsStream(""));
+      
+      netPane.setVgap(20);
+      netPane.setHgap(20);
+      
+      //Image
+      //netPane.add(Image, 1, 0);
+      
+      //TextArea
+      netPane.add(infoLabel, 1, 2);
+      netPane.add(text, 1, 3);
+      
+      //ChoiceBox
+      netPane.add(PriBox, 2, 1);
+      netPane.add(QulBox, 3, 1);
+      
+      tab.setContent(netPane);
+              
+      tabPane.getTabs().add(tab);
   }
     
 }

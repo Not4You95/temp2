@@ -42,6 +42,7 @@ public class guiControler {
              upDateInterface();
              upDateNode();
              Overview();
+             newTab();
         }
     }
     
@@ -76,12 +77,14 @@ public class guiControler {
         
         if (Plan) {
             gui.screenForPlanMode(model.getTaskList());
+          
             
         }else if(Live){
             ArrayList<String> temp = new ArrayList<String>(); 
             temp.addAll(model.GetTaskNames());
             gui.UppdateListOfTask(temp);
             gui.SetTabsForLiveMode();
+              
             
         }
         else if(Simulate){
@@ -102,6 +105,11 @@ public class guiControler {
     public void choiseOfInterface(String temp){
         gui.makeNewTabView(temp);
        
+    }
+    
+    public void newTab(){
+         TSN temp = model.getNode("UAV ISR Global");
+         gui.nodeAndComtypeTab(temp.getName(),temp.getInfo());
     }
     
    public void modeState(boolean Plan,boolean Live,boolean Simulate){
