@@ -28,6 +28,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -67,6 +68,7 @@ public class GUI2 extends Application {
    private GridPane Net;
    private Tab Overview,Interface,Nodes,tabPlanScren;
    private TabPane tabPane;
+  private ArrayList<TreeItem> ListOfInterfaceArea,ListOfNodesArea;
     @Override   
     
     public void start(Stage primaryStage) {
@@ -133,7 +135,7 @@ public class GUI2 extends Application {
    public void SetTabsForLiveMode(){
        tabPane.getTabs().clear();
         Overview = new Tab("Overwiew");
-        Interface = new Tab("Interface");
+        Interface = new Tab("Comunication type");
         Nodes = new Tab("Nodes");
         Overview.setClosable(false);
         Interface.setClosable(false);
@@ -289,6 +291,7 @@ public void SetColor(){
            
             if (event.getSource() == P_2_P_MenuItem) {
                 System.out.println("P_2_P\n");
+                Contolloer.updateP_2_P();
                 
             }
         }
@@ -405,13 +408,16 @@ public void NodeTabScreen(ArrayList<TSN> noder){
         
         root = new TreeItem<>();
         root.setExpanded(true);
-        
+        ListOfNodesArea = new ArrayList<>();
        makeTreeAreaNode(root);
+       
+       for (int i = 0; i < noder.size(); i++) {
+       makeTreeSubArea(noder.get(i));
+    }
         
         TreeView tree = new TreeView<>(root);
         tree.setShowRoot(false);
-        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});
-            
+        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});         
         
         
     
@@ -437,6 +443,14 @@ public void NodeTabScreen(ArrayList<TSN> noder){
           TreeItem<String> item = new TreeItem(TSNTypes.getTypes(i).toString());
           item.setExpanded(true);
           parentItem.getChildren().add(item);
+          ListOfNodesArea.add(item);
+      }
+  }
+  
+  public void makeTreeSubArea(TSN node){
+      TreeItem<String> item = new TreeItem<>(node.getName());
+      for (int i = 0; i <ListOfNodesArea.size(); i++) {
+          
       }
   }
   
@@ -534,7 +548,34 @@ public void NodeTabScreen(ArrayList<TSN> noder){
       
   }
 
-    
+  public void P_2_PScreen(){
+      Tab tab = new Tab("P_2_P");
+      GridPane pnet = new GridPane();
+      Label nod1 = new Label("Node 1");
+      Label nod2 = new Label("Node 2");
+      TextField textnode1 = new TextField("Node 1");
+      TextField textnode2 = new TextField("Node 2");
+      TextField textComType = new TextField("Comunication type");
+      
+      pnet.setHgap(20);
+      pnet.setVgap(20);
+      
+      //////Node 1
+      pnet.add(nod1, 1, 1);
+      pnet.add(textnode1, 2, 1);
+      
+      ///Node 2
+      pnet.add(nod2, 1, 2);
+      pnet.add(textnode2, 2, 2);
+      
+      ///Comunication type
+      pnet.add(textComType, 2, 4);
+      
+      tab.setContent(pnet);
+      
+      tabPane.getTabs().add(tab);
+      
+  }
     
 }
 

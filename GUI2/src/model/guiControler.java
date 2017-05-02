@@ -95,6 +95,10 @@ public class guiControler {
        
     }
     
+    public void updateP_2_P(){
+          gui.P_2_PScreen();
+      }
+    
     public void choiseOfInterface(String temp){
         gui.makeNewTabView(temp);
        
@@ -114,5 +118,7 @@ public class guiControler {
          
           gui.InterfaceScreen();
       }
+      
+     
     
 }
