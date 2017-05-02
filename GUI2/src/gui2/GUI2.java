@@ -248,8 +248,8 @@ public class GUI2 extends Application {
                 Contolloer.Overview();
             }
             else if (event.getSource() == ButtonInterface) {
-                System.out.println("Interface");
-                InterfaceScreen();
+                System.out.println("Interface");                
+                Contolloer.upDateInterface();
             }
             else if(event.getSource() == ButtonNodes){
                 System.out.println("Nodes");
@@ -380,23 +380,22 @@ public class GUI2 extends Application {
         
     }
   
-  public void InterfaceScreen(){  
-     
+  public void InterfaceScreen(ArrayList<Interface> noder){      
        
-        TreeItem<String> root;
-        
+        TreeItem<String> root;        
         root = new TreeItem<>();
         root.setExpanded(true);
-        
-      makeTreeAreaInterface(root);
+        ListOfInterfaceArea = new ArrayList<>();        
+        makeTreeAreaInterface(root);
+      
+        for (int i = 0; i < noder.size(); i++) {
+            makeTreeInterfaceSubArea(noder.get(i));
+        }
         
         TreeView tree = new TreeView<>(root);
         tree.setShowRoot(false);
-        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});
-            
+        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {Contolloer.newTabInterface(newvalue);});         
         
-        
-    
     Interface.setContent(tree);
 }
   
@@ -407,18 +406,16 @@ public class GUI2 extends Application {
         root = new TreeItem<>();
         root.setExpanded(true);
         ListOfNodesArea = new ArrayList<>();
-       makeTreeAreaNode(root);
+        makeTreeAreaNode(root);
        
        for (int i = 0; i < noder.size(); i++) {
-       makeTreeSubArea(noder.get(i));
-    }
+           makeTreeNodeSubArea(noder.get(i));
+         }
         
         TreeView tree = new TreeView<>(root);
         tree.setShowRoot(false);
-        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {System.out.println(newvalue);});         
-        
-        
-    
+        tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {Contolloer.newTabNode(newvalue);});      
+       
     Nodes.setContent(tree);
 }
 
@@ -434,6 +431,7 @@ public class GUI2 extends Application {
           TreeItem<String> item = new TreeItem(InterfaceTypes.getTypes(i).toString());
           item.setExpanded(true);
           parentItem.getChildren().add(item);
+          ListOfInterfaceArea.add(item);
       }
   }
   
@@ -444,9 +442,9 @@ public class GUI2 extends Application {
           parentItem.getChildren().add(item);
           ListOfNodesArea.add(item);
       }
-  }
+  }  
   
-  public void makeTreeSubArea(TSN node){
+  public void makeTreeNodeSubArea(TSN node){
       TreeItem<String> item = new TreeItem<>(node.getName());
       for (int i = 0; i <ListOfNodesArea.size(); i++) {          
           if (ListOfNodesArea.get(i).toString().toLowerCase().contains(node.getType().toString().toLowerCase())) {
@@ -455,13 +453,13 @@ public class GUI2 extends Application {
       }
   }
   
-  public void makeNewTabView(String Name){
-      Tab item = new Tab(Name);
-      tabPane.getTabs().add(item);
-      
-      
-    
-      
+  public void makeTreeInterfaceSubArea(Interface node){
+      TreeItem<String> item = new TreeItem<>(node.getName());
+      for (int i = 0; i <ListOfInterfaceArea.size(); i++) {          
+          if (ListOfInterfaceArea.get(i).toString().toLowerCase().contains(node.getType().toString().toLowerCase())) {
+              ListOfInterfaceArea.get(i).getChildren().add(item);
+          }
+      }
   }
   
   public void screenForPlanMode(ObservableList<Task> Tasks){

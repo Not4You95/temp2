@@ -112,9 +112,10 @@ public class GUImodel {
        return temp;
     }
     
-    public ArrayList<TSN> getInterfaceTypes(){
-       ArrayList<TSN> temp = new ArrayList<>();
-        temp.addAll(taskTemp.getNoder());
+    public ArrayList<Interface> getInterfaceTypes(){
+       ArrayList<Interface> temp = new ArrayList<>();
+       
+        
         return temp;
         
     }
@@ -133,8 +134,11 @@ public class GUImodel {
     public TSN getNode(String name){
         if (taskTemp != null) {
             for (int i = 0; i < taskTemp.getNoder().size(); i++) {
-            System.out.println(taskTemp.getNoder().get(i).getName().toLowerCase().contains(name.toLowerCase()));
-            if (taskTemp.getNoder().get(i).getName().toLowerCase().contains(name.toLowerCase())) {
+                System.out.println("---------------------------------------------------------");
+                System.out.println(taskTemp.getNoder().get(i).getName());
+                System.out.println(name);
+                System.out.println(name.toLowerCase().contains(taskTemp.getNoder().get(i).getName().toLowerCase()));
+            if (name.toLowerCase().contains(taskTemp.getNoder().get(i).getName().toLowerCase())) {
                 return taskTemp.getNoder().get(i);
             }
         }

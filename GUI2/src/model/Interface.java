@@ -111,6 +111,20 @@ public class Interface implements Serializable {
         return Quality;
     }
 
+    /**
+     * @return the type
+     */
+    public InterfaceTypes getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(InterfaceTypes type) {
+        this.type = type;
+    }
+
     
     
 }

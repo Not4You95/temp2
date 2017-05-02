@@ -7,6 +7,7 @@ package model;
 
 import gui2.*;
 import java.util.ArrayList;
+import javafx.scene.control.TreeItem;
 import model.*;
 
 /**
@@ -41,8 +42,7 @@ public class guiControler {
              model.choiseOfTask(DesierdTask);
              upDateInterface();
              upDateNode();
-             Overview();
-             newTab();
+             Overview();             
         }
     }
     
@@ -103,13 +103,21 @@ public class guiControler {
       }
     
     public void choiseOfInterface(String temp){
-        gui.makeNewTabView(temp);
+        //gui.makeNewTabView(temp,"");
        
     }
     
-    public void newTab(){
-         TSN temp = model.getNode("UAV ISR Global");
-         gui.nodeAndComtypeTab(temp.getName(),temp.getInfo());
+    public void newTabInterface(Object node){
+        System.out.println("New tab "+node.toString());     
+      
+    }
+    
+    public void newTabNode(Object node){
+        System.out.println("New tab :"+node.toString());
+        TSN temp = model.getNode(node.toString());
+        if (temp != null) {
+            gui.nodeAndComtypeTab(temp.getName(), temp.getInfo());
+        }
     }
     
    public void modeState(boolean Plan,boolean Live,boolean Simulate){
@@ -120,11 +128,12 @@ public class guiControler {
           gui.upDateModeState(Plan, Live, Simulate);
       }
    public void upDateNode(){
+       
        gui.NodeTabScreen(model.getNodes());
    }
       public void upDateInterface(){
          
-          gui.InterfaceScreen();
+          gui.InterfaceScreen(model.getInterfaceTypes());
       }
       
      
