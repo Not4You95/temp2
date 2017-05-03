@@ -32,6 +32,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -469,50 +470,29 @@ public class GUI2 extends Application {
       TableView<Task> table = new TableView<>();
       ObservableList<String> ratingSample = FXCollections.observableArrayList("High","Medium","Low");
         
-        
+      
+      
         TableColumn<Task,String> nameColum = new TableColumn<>("Mision");
         nameColum.setMinWidth(200);
         nameColum.setCellValueFactory(new PropertyValueFactory<>("name"));
         
         
-         TableColumn<Task,String> priceColum = new TableColumn<>("Info");
-        priceColum.setMinWidth(200);
-        priceColum.setCellValueFactory(new PropertyValueFactory<>("info"));
+         TableColumn<Task,String> infoColum = new TableColumn<>("Info");
+         infoColum.setMinWidth(200);
+         infoColum.setCellValueFactory(new PropertyValueFactory<>("info"));
         
          TableColumn<Task,String> QuantityColum = new TableColumn<>("Priority");
         QuantityColum.setMinWidth(100);
         QuantityColum.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
         
-        TableColumn<Task,String> SetPriority = new TableColumn<>("Priority");
+        TableColumn<Task,String> SetPriority = new TableColumn<>("Rank");
         SetPriority.setMinWidth(100);
         SetPriority.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
-       
-      
-     
-        SetPriority.setCellFactory(new Callback<TableColumn<Task, String>, TableCell<Task, String>>() {
-          @Override
-          public TableCell<Task, String> call(TableColumn<Task, String> param) {
-              TableCell<Task,String> cellTemp = new TableCell<Task, String>(){
-                  
-              public void updateItem(String item, boolean empty){
-                  ObservableList<String> ratingSample = FXCollections.observableArrayList("High","Medium","Low");
-                  
-                  if (item != null) {
-                       ChoiceBox coicebox = new ChoiceBox(ratingSample);
-                       coicebox.getSelectionModel().select(ratingSample.indexOf(item));                       
-                       setGraphic(coicebox);                       
-                       //obejct.setPriorityFromPlan(item);
-                      
-                  }
-                  
-              }
-              
-              };
-              
-              
-              return cellTemp;
-          }
-      });        
+        SetPriority.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
+        //SetPriority.setOnEditCommit(value);
+        SetPriority.setEditable(true);
+        
+         table.setItems(Tasks);  
         
        /*  rating.setCellFactory(new Callback<TableColumn<Music,Integer>,TableCell<Music,Integer>>(){        
             @Override
@@ -535,7 +515,7 @@ public class GUI2 extends Application {
         }); */ 
         
         table.setItems(Tasks);
-        table.getColumns().addAll(nameColum,priceColum,QuantityColum,SetPriority);
+        table.getColumns().addAll(nameColum,SetPriority,infoColum,QuantityColum);
         
         VBox box = new VBox();
         box.getChildren().add(table);
