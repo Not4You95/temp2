@@ -16,6 +16,7 @@ public class Task implements Serializable{
      private ArrayList<TSN> noder;
      private String Name;
      private String info;
+     private int rank;
      private priorityAndQulaityLevels priorityFromPlan ;
      
      
@@ -91,6 +92,22 @@ public class Task implements Serializable{
      */
     public void setPriorityFromPlan(priorityAndQulaityLevels priorityFromPlan) {
         this.priorityFromPlan = priorityFromPlan;
+    }
+
+    
+
+    /**
+     * @return the rank
+     */
+    public int getRank() {
+        return rank;
+    }
+
+    /**
+     * @param rank the rank to set
+     */
+    public void setRank(int rank) {
+        this.rank = rank;
     }
     
     

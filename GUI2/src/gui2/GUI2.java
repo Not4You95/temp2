@@ -468,8 +468,10 @@ public class GUI2 extends Application {
       tabPane.getTabs().clear();
       
       TableView<Task> table = new TableView<>();
-      ObservableList<String> ratingSample = FXCollections.observableArrayList("High","Medium","Low");
-        
+      ObservableList<Integer> ratingSample = FXCollections.observableArrayList(1,2,3,4,5);
+        /*for (int i = 0; i < Tasks.size(); i++) {
+          ratingSample.add(i);           
+        }*/
       
       
         TableColumn<Task,String> nameColum = new TableColumn<>("Mision");
@@ -485,14 +487,20 @@ public class GUI2 extends Application {
         QuantityColum.setMinWidth(100);
         QuantityColum.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
         
-        TableColumn<Task,String> SetPriority = new TableColumn<>("Rank");
-        SetPriority.setMinWidth(100);
-        SetPriority.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
-        SetPriority.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
-        //SetPriority.setOnEditCommit(value);
-        SetPriority.setEditable(true);
+        TableColumn<Task,Integer> SetRank = new TableColumn<>("Rank");
+        SetRank.setMinWidth(100);
+        SetRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        SetRank.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
         
-         table.setItems(Tasks);  
+        SetRank.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task, Integer>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<Task, Integer> event) {
+             ((Task) event.getTableView().getItems().get(event.getTablePosition().getRow())).setRank(event.getNewValue());
+          }
+      });
+        //SetPriority.setEditable(true);
+        
+         //table.setItems(Tasks);  
         
        /*  rating.setCellFactory(new Callback<TableColumn<Music,Integer>,TableCell<Music,Integer>>(){        
             @Override
@@ -515,7 +523,7 @@ public class GUI2 extends Application {
         }); */ 
         
         table.setItems(Tasks);
-        table.getColumns().addAll(nameColum,SetPriority,infoColum,QuantityColum);
+        table.getColumns().addAll(nameColum,SetRank,infoColum,QuantityColum);
         
         VBox box = new VBox();
         box.getChildren().add(table);
