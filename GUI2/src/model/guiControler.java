@@ -39,7 +39,7 @@ public class guiControler {
     public void setDesierdTask(int DesierdTask){
         if (DesierdTask >=0) {
              gui.SetTabsForLiveMode();
-             model.choiseOfTask(DesierdTask);
+             model.choiseOfTask(DesierdTask);             
              upDateInterface();
              upDateNode();
              Overview();             
@@ -49,13 +49,15 @@ public class guiControler {
     public void ChoiceOfOrg(String name){
         
        model.SetOrgName(name);
-       System.out.println("Contoler name: "+name);       
-      
-       UppdateScreen();      
+        ArrayList<String> temp = new ArrayList<String>(); 
+        temp.addAll(model.GetTaskNames());
+        gui.UppdateListOfTask(temp); 
+        System.out.println("Contoler name: "+name);          
     }
     
     public void Overview(){
         gui.OverViewSceen(model.GetOrgPriorityForAll(), model.GetOrgQualityForAll(),model.GetOrgInfo());
+       
     }
     
     public void setScreen(){
@@ -82,8 +84,8 @@ public class guiControler {
         }else if(Live){
             ArrayList<String> temp = new ArrayList<String>(); 
             temp.addAll(model.GetTaskNames());
-            gui.UppdateListOfTask(temp);
-            gui.SetTabsForLiveMode();
+            gui.UppdateListOfTask(temp); 
+            gui.SetScreenForLiveMode();
               
             
         }
@@ -110,6 +112,10 @@ public class guiControler {
     public void newTabInterface(Object node){
         System.out.println("New tab "+node.toString());     
       
+    }
+    
+    public void getTask(Task obejct){
+        
     }
     
     public void newTabNode(Object node){

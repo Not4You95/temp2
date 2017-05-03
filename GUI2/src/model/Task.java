@@ -16,7 +16,7 @@ public class Task implements Serializable{
      private ArrayList<TSN> noder;
      private String Name;
      private String info;
-     private int rank;
+     private int rank ;
      private priorityAndQulaityLevels priorityFromPlan ;
      
      

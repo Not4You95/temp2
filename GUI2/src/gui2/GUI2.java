@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -58,7 +59,7 @@ public class GUI2 extends Application {
     
    private BorderPane root;
    private GridPane  border;
-   private Button ButtonOverview,ButtonInterface,ButtonNodes;
+   private Button ButtonOverview,ButtonInterface,ButtonNodes,okButton;
    private MenuItem SetGroupOrg,SetPrioritForAllTask,SetQualityForAllTask,SetQualityForOneTask,SetPriorityForOneTask;
    private MenuItem SendToSystem,P_2_P_MenuItem,SendToSystemItem;
    private guiControler Contolloer;
@@ -70,7 +71,7 @@ public class GUI2 extends Application {
    private VBox ToplineVBox,CentetVBox;
    private MenuBar menulist;
    private GridPane Net;
-   private Tab Overview,Interface,Nodes,tabPlanScren;
+   private Tab Overview,Interface,Nodes,tabPlanScren,tabP_2_P;
    private TabPane tabPane;
   private ArrayList<TreeItem> ListOfInterfaceArea,ListOfNodesArea;
     @Override   
@@ -137,7 +138,7 @@ public class GUI2 extends Application {
     }
     
   public void SetTabsForLiveMode(){
-       tabPane.getTabs().clear();
+        tabPane.getTabs().clear();
         Overview = new Tab("Overwiew");
         Interface = new Tab("Comunication type");
         Nodes = new Tab("Nodes");
@@ -145,10 +146,16 @@ public class GUI2 extends Application {
         Interface.setClosable(false);
         Nodes.setClosable(false);        
         tabPane.getTabs().addAll(Overview,Interface,Nodes);      
-        root.setLeft(ListOfTasks);   
+           
         
         
    }
+  
+  public void SetScreenForLiveMode(){
+      tabPane.getTabs().clear();
+      ToplineVBox.getChildren().add(TopLineLine2);
+      root.setLeft(ListOfTasks);
+  }
   
   public void ButtonTopLine(){
     ButtonOverview = new Button("Overview");
@@ -224,6 +231,7 @@ public class GUI2 extends Application {
 }
   
   public void UppdateListOfTask(ArrayList<String> task){
+      tabPane.getTabs().clear();
      ListOfTasks.getItems().clear();
      ListOfTasks.getItems().addAll(task);
    
@@ -239,6 +247,16 @@ public class GUI2 extends Application {
     ButtonNodes.setStyle("-fx-background-color: #ccccb3");
 
 }    
+
+  private  class P_2_PButtonChice implements EventHandler<ActionEvent>{       
+
+        @Override
+        public void handle(ActionEvent event) {
+            if (event.getSource() == okButton) {
+                tabPane.getTabs().remove(tabP_2_P);
+            }
+        }
+    }
 
   private class ButtonChoice implements EventHandler<ActionEvent>{
 
@@ -466,12 +484,14 @@ public class GUI2 extends Application {
   public void screenForPlanMode(ObservableList<Task> Tasks){
       tabPlanScren = new Tab("Misions");
       tabPane.getTabs().clear();
+      root.setLeft(null);
+      ToplineVBox.getChildren().remove(TopLineLine2);
       
       TableView<Task> table = new TableView<>();
-      ObservableList<Integer> ratingSample = FXCollections.observableArrayList(1,2,3,4,5);
-        /*for (int i = 0; i < Tasks.size(); i++) {
+      ObservableList<Integer> ratingSample = FXCollections.observableArrayList();
+        for (int i = 0; i < Tasks.size(); i++) {
           ratingSample.add(i);           
-        }*/
+        }
       
       
         TableColumn<Task,String> nameColum = new TableColumn<>("Mision");
@@ -492,15 +512,34 @@ public class GUI2 extends Application {
         SetRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
         SetRank.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
         
+        
         SetRank.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task, Integer>>() {
           @Override
           public void handle(TableColumn.CellEditEvent<Task, Integer> event) {
              ((Task) event.getTableView().getItems().get(event.getTablePosition().getRow())).setRank(event.getNewValue());
+             
           }
       });
-        //SetPriority.setEditable(true);
-        
-         //table.setItems(Tasks);  
+          
+        SetRank.setCellFactory(new Callback<TableColumn<Task, Integer>, TableCell<Task, Integer>>() {
+          @Override
+          public TableCell<Task, Integer> call(TableColumn<Task, Integer> param) {
+              TableCell<Task, Integer> cell = new TableCell<Task,Integer>(){
+                  @Override
+                  public void updateItem(Integer item, boolean empty){
+                      if(item!=null){
+                            
+                           ComboBox choice = new ComboBox(ratingSample);  
+                           choice.setPromptText(item.toString());
+                           //choice.getSelectionModel().select(ratingSample.indexOf(item));
+                           //SETTING ALL THE GRAPHICS COMPONENT FOR CELL
+                           setGraphic(choice);
+                        } 
+                  }
+              };
+              return cell;
+          }
+      });
         
        /*  rating.setCellFactory(new Callback<TableColumn<Music,Integer>,TableCell<Music,Integer>>(){        
             @Override
@@ -536,7 +575,8 @@ public class GUI2 extends Application {
   }
 
   public void P_2_PScreen(){
-      Tab tab = new Tab("P_2_P");
+      tabP_2_P = new Tab("P_2_P");
+      tabPane.getTabs().remove(tabP_2_P);
       GridPane pnet = new GridPane();
       Label nod1 = new Label("Node 1");
       Label nod2 = new Label("Node 2");
@@ -548,7 +588,8 @@ public class GUI2 extends Application {
       priBox.setPromptText("Priority");
       ComboBox<String> QualbBox = new ComboBox<>();
       QualbBox.setPromptText("Quality");
-      Button ok = new Button("Ok");
+      okButton = new Button("Ok");
+      okButton.addEventHandler(ActionEvent.ACTION, new P_2_PButtonChice());
       
       pnet.setHgap(20);
       pnet.setVgap(20);
@@ -570,10 +611,10 @@ public class GUI2 extends Application {
       pnet.add(QualbBox, 2, 4);
       
       //Button
-      pnet.add(ok, 3, 4);
-      tab.setContent(pnet);
+      pnet.add(okButton, 3, 4);
+      tabP_2_P.setContent(pnet);
       
-      tabPane.getTabs().add(tab);
+      tabPane.getTabs().add(tabP_2_P);
       
   }
   
