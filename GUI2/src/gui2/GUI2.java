@@ -112,7 +112,7 @@ public class GUI2 extends Application {
         
         
         menulist = new MenuBar();
-        menulist.getMenus().addAll(SetTaskmMenu,SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu);
+        menulist.getMenus().addAll(SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu);
         /////////////////////////////////////////////////////////////
         TopLine.setAlignment(Pos.CENTER_LEFT);
         TopLine.setSpacing(20);
@@ -190,7 +190,7 @@ public class GUI2 extends Application {
 }
 
   public void InterfaceMenu(){
-    SetInterfacemMenu = new Menu("_Interface");
+    SetInterfacemMenu = new Menu("_Comunication type");
     SetPriorityForOneTask = new MenuItem("Set Priority");
     SetPriorityForOneTask.addEventHandler(ActionEvent.ACTION, new menuInterfaceChoice());
     SetQualityForOneTask = new MenuItem("Set Quality");
