@@ -578,7 +578,7 @@ public class GUI2 extends Application {
         // Tooltip.install(rankColumn, tooltip);
 //////////////////////////////////////////////////////////////////////
  
-       
+        table.setTooltip(tooltip);
         table.setItems(Tasks);
         table.getColumns().addAll(misionColumn, rankColumn,OrgColumn ,InfoColumn);           
         table.setRowFactory(tv -> {
@@ -612,9 +612,12 @@ public class GUI2 extends Application {
       Label nod1 = new Label("Node 1");
       Label nod2 = new Label("Node 2");
       Label comType = new Label("Com type");
-      TextField textnode1 = new TextField("Node 1");
-      TextField textnode2 = new TextField("Node 2");
-      TextField textComType = new TextField("Comunication type");
+      TextField textnode1 = new TextField();
+      textnode1.setPromptText("Node 1");
+      TextField textnode2 = new TextField();
+      textnode2.setPromptText("Node 2");
+      TextField textComType = new TextField();
+      textComType.setPromptText("Comunication type");
       ComboBox<String> priBox = new ComboBox<>();
       priBox.setPromptText("Priority");
       ComboBox<String> QualbBox = new ComboBox<>();
@@ -624,6 +627,21 @@ public class GUI2 extends Application {
       
       pnet.setHgap(20);
       pnet.setVgap(20);
+      /////Tooltips
+      Tooltip tip1 = new Tooltip("Type the first two letters in the text field and choose the desired first node");
+      tip1.setWrapText(true);
+      textnode1.setTooltip(tip1);
+      nod1.setTooltip(tip1);
+      
+      Tooltip tip2 = new Tooltip("Type the first two letters in the text field and choose the desired secend node");
+      tip2.setWrapText(true);
+      textnode2.setTooltip(tip2);
+      nod2.setTooltip(tip2);
+      
+      Tooltip tip3 = new Tooltip("Type the first two letters in the text field and choose the desired communication type");
+      tip3.setWrapText(true);
+      textComType.setTooltip(tip3);
+      comType.setTooltip(tip3);
       
       //////Node 1
       pnet.add(nod1, 1, 1);
