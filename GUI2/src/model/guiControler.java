@@ -94,8 +94,8 @@ public class guiControler {
       //  gui.topLineForPlanmode();
     }
     
-    public void ChoiseOfTaskPlanMode(String obejct){
-        System.out.println(obejct);
+    public void ChoiseOfTaskPlanMode(){
+        System.out.println("Hello");
     }
     
     public void UppdateScreen(){          

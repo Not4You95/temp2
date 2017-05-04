@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,6 +31,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -37,8 +39,10 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -535,8 +539,19 @@ public class GUI2 extends Application {
       
      topLineForPlanmode();
       
+     
+     
+     
       //////////////////////////
-      
+      /* Callback<TableColumn, TableCell> integerCellFactory =
+                new Callback<TableColumn, TableCell>() {
+            @Override
+            public TableCell call(TableColumn p) {
+                MyIntegerTableCell cell = new MyIntegerTableCell();
+                cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
+                return cell;
+            }
+        };*/
       ///Update level of ranks
       ObservableList<Integer> ratingSample = FXCollections.observableArrayList();
         for (int i = 0; i < Tasks.size(); i++) {
@@ -547,69 +562,70 @@ public class GUI2 extends Application {
       TableView<Task> table = new TableView<>();     
       
       
-        TableColumn<Task,String> nameColum = new TableColumn<>("Mision");
-        nameColum.setMinWidth(200);
-        nameColum.setCellValueFactory(new PropertyValueFactory<>("name"));
+      table.setEditable(true);
+ 
+        TableColumn misionColumn = new TableColumn("Mision");
+        misionColumn.setMinWidth(200);
+        misionColumn.setCellValueFactory(
+            new PropertyValueFactory<Task, String>("Name"));
+      //  misionColumn.setCellFactory(TableCell.);
         
-        nameColum.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task, String>>() {
-          @Override
-          public void handle(TableColumn.CellEditEvent<Task, String> event) {
-              //Contolloer.ChoiseOfTaskPlanMode(event.getNewValue());
-              System.out.println("hello");
-          }
-      });
-        
-         TableColumn<Task,String> infoColum = new TableColumn<>("Info");
-         infoColum.setMinWidth(200);
-         infoColum.setCellValueFactory(new PropertyValueFactory<>("info"));
-        
-         TableColumn<Task,String> QuantityColum = new TableColumn<>("Priority");
-        QuantityColum.setMinWidth(100);
-        QuantityColum.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
-        
-        TableColumn<Task,String> OrgName = new TableColumn<>("Orginasation");
-        OrgName.setMinWidth(100);
-        OrgName.setCellValueFactory(new PropertyValueFactory<>("orginsastion"));
-        
-        TableColumn<Task,Integer> SetRank = new TableColumn<>("Rank");
-        SetRank.setMinWidth(100);
-        SetRank.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        SetRank.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
-        
-        
-        SetRank.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task, Integer>>() {
-          @Override
-          public void handle(TableColumn.CellEditEvent<Task, Integer> event) {
-             ((Task) event.getTableView().getItems().get(event.getTablePosition().getRow())).setRank(event.getNewValue());
-              System.out.println("Rank");
-          }
-      });
-          
-        SetRank.setCellFactory(new Callback<TableColumn<Task, Integer>, TableCell<Task, Integer>>() {
-          @Override
-          public TableCell<Task, Integer> call(TableColumn<Task, Integer> param) {
-              TableCell<Task, Integer> cell = new TableCell<Task,Integer>(){
-                  @Override
-                  public void updateItem(Integer item, boolean empty){
-                      if(item!=null){
-                            
-                           ComboBox choice = new ComboBox(ratingSample);  
-                           choice.setPromptText(item.toString());
-                           //choice.getSelectionModel().select(ratingSample.indexOf(item));
-                           //SETTING ALL THE GRAPHICS COMPONENT FOR CELL
-                           setGraphic(choice);
-                          
-                        } 
-                  }
-              };
-              return cell;
-          }
-      });        
+ 
+       /* misionColumn.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<Task, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<Task, String> t) {
+                    Contolloer.ChoiseOfTaskPlanMode(t.getNewValue());
+                }
+            }
+        );*/
+ 
+ 
+        TableColumn InfoColumn = new TableColumn("Mision info");
+        InfoColumn.setMinWidth(100);
+        InfoColumn.setCellValueFactory(
+            new PropertyValueFactory<Task, String>("info"));
+       // InfoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
        
-       
+ 
+        TableColumn OrgColumn = new TableColumn("Orginasation");
+        OrgColumn.setMinWidth(200);
+        OrgColumn.setCellValueFactory(
+            new PropertyValueFactory<Task, String>("orginsastion"));
+       // OrgColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+      
         
+       
+        //////////////////////////////////////////////////////////////////////
+       
+        TableColumn rankColumn = new TableColumn("Rank");
+        rankColumn.setMinWidth(100);
+        rankColumn.setCellValueFactory(new PropertyValueFactory<Task,Integer>("rank"));
+        rankColumn.setCellFactory(ComboBoxTableCell.forTableColumn(ratingSample));
+        rankColumn.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task,Integer>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Task,Integer> t) {               
+                ((Task) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())
+                        ).setRank(t.getNewValue());
+            }
+        });
+        //////////////////////////////////////////////////////////////////////
+ 
         table.setItems(Tasks);
-        table.getColumns().addAll(nameColum,SetRank,OrgName,infoColum,QuantityColum);
+        table.getColumns().addAll(misionColumn, rankColumn,OrgColumn ,InfoColumn);
+        table.getSelectionModel().selectionModeProperty().addListener((num) -> {Contolloer.ChoiseOfTaskPlanMode();});
+        //tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {Contolloer.newTabInterface(newvalue);});     
+        table.setRowFactory(tv -> {
+            TableRow<Task> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if(! row.isEmpty() && event.getButton() == MouseButton.PRIMARY){
+                   Task clikrow = row.getItem();
+                    System.out.println(clikrow.getName());
+                }
+            });
+          return row;
+        });
         
         VBox box = new VBox();
         box.getChildren().add(table);
