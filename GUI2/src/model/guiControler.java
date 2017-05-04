@@ -45,6 +45,7 @@ public class guiControler {
     
     public void upDateTabs(){
         gui.SetTabsForLiveMode();
+        gui.topLineforEdeting();
              upDateInterface();
              upDateNode();
              Overview(); 
@@ -57,37 +58,29 @@ public class guiControler {
        
     }
     
-    public void setScreen(){
-       // gui.OrgMenu(model.GetOrgNames());
+    public void setScreen(){      
         gui.TaskMenu();
         gui.InterfaceMenu();
         gui.P_2_PMenu();
-        gui.SendMenu();
-        gui.ButtonTopLine();
+        gui.SendMenu();        
         gui.setListOfTask();
         tempTask.clear();
         gui.ModeMenu();
-        modeState(Plan, Live, Simulate);
+       
         //UppdateScreen();
         
     }
     public void setScreenLiveMode(){
          gui.TaskMenu();
-        gui.InterfaceMenu();
-        gui.P_2_PMenu();
-        gui.SendMenu();
-        gui.ButtonTopLine();
-       // gui.setListOfTask();
-        tempTask.clear();
-        gui.ModeMenu();
-       // modeState(Plan, Live, Simulate);
+         gui.InterfaceMenu();
+         gui.P_2_PMenu();
+         gui.SendMenu();      
+          tempTask.clear();
+          gui.ModeMenu();      
     }
     
-    public void setScreenForPlanMode(){
-         gui.TaskMenu();
-        gui.InterfaceMenu();
-        gui.P_2_PMenu();
-        gui.screenForPlanMode(model.getTaskList());
+    public void setScreenForPlanMode(){        
+         gui.screenForPlanMode(model.getTaskList());
       //  gui.topLineForPlanmode();
     }
     
@@ -97,9 +90,8 @@ public class guiControler {
      
     }
     
-    public void UppdateScreen(){          
-        
-        
+    public void UppdateScreen(){       
+    
         if (Plan) {
             setScreenForPlanMode();
           
@@ -147,6 +139,10 @@ public class guiControler {
         if (temp != null) {
             gui.nodeAndComtypeTab(temp.getName(), temp.getInfo());
         }
+    }
+    
+    public void modeState(){
+        modeState(Plan, Live, Simulate);
     }
     
    public void modeState(boolean Plan,boolean Live,boolean Simulate){

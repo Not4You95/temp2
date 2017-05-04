@@ -17,7 +17,6 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,6 +38,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.ComboBoxTableCell;
@@ -70,13 +70,13 @@ public class GUI2 extends Application {
            
     
    private BorderPane root;
+   private String State="";
    private GridPane  border;
-   private Button ButtonOverview,ButtonInterface,ButtonNodes,okButton;
+   private Button okButton,BackButton;
    private MenuItem SetGroupOrg,SetPrioritForAllTask,SetQualityForAllTask,SetQualityForOneTask,SetPriorityForOneTask;
    private MenuItem SendToSystem,P_2_P_MenuItem,SendToSystemItem;
    private guiControler Contolloer;
-   private Menu SetTaskmMenu,SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu;
-   private ComboBox <String> choiceBox;
+   private Menu SetTaskmMenu,SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu;   
    private CheckMenuItem Plan,Live,Simulate;
    private ListView<String> ListOfTasks;
    private HBox TopLine,TopLineLine2,CenterHBox;
@@ -103,48 +103,18 @@ public class GUI2 extends Application {
         Contolloer.setScreen();        
         Live.setSelected(false);
         Simulate.setSelected(false);
-       
-        ///////////////////////////////////////////////////////////////////////
-        
-        
-        /////////////////////////////////////////////////////
-       
-        
-           
-        /////////////////////Menu ////////////////////////////////////////
-       
-        
-       
-        ///////////////////////Task Menu///////////////////////////////////////////
-       
-        
-       
-        
-        
-        
-        /*root.setStyle("-fx-background-color: linear-gradient(to bottom," +
-                    " black 60, #141414 60.1%, black 100%);");*/
-        
-        
         menulist = new MenuBar();
-        menulist.getMenus().addAll(SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu);
-        /////////////////////////////////////////////////////////////
-        TopLine.setAlignment(Pos.CENTER_LEFT);
-        TopLine.setSpacing(20);
-        
-        TopLine.getChildren().addAll(menulist); 
-        TopLineLine2.setSpacing(20);
-        ToplineVBox.setSpacing(5);
+        BackButton = new Button("Back");
+        ///////////////////////////////////////////////////////////////////////
+        BackButton.addEventFilter(ActionEvent.ACTION, new BackButton());
        
-               
-               
-       ToplineVBox.getChildren().addAll(TopLine,TopLineLine2);
+        menulist.getMenus().addAll(SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu);    
        
-       root.setTop(ToplineVBox);
-       root.setCenter(tabPane);
        
+        root.setCenter(tabPane);
+        Contolloer.modeState();
         SetColor();
-        Scene scene = new Scene(root, 700, 300);
+        Scene scene = new Scene(root, 700, 320);
         
         primaryStage.setTitle("GUI");
         primaryStage.setScene(scene);
@@ -172,17 +142,7 @@ public class GUI2 extends Application {
       tabPane.getTabs().clear();
       ToplineVBox.getChildren().add(TopLineLine2);
       root.setLeft(ListOfTasks);
-  }
-  
-  public void ButtonTopLine(){
-    ButtonOverview = new Button("Overview");
-    ButtonOverview.addEventHandler(ActionEvent.ACTION, new ButtonChoice());
-    ButtonInterface = new Button("Interface");
-    ButtonInterface.addEventFilter(ActionEvent.ACTION, new ButtonChoice());
-    ButtonNodes = new Button("Nodes");
-    ButtonNodes.addEventFilter(ActionEvent.ACTION, new ButtonChoice());
-    
-}
+  }  
   
   public void ModeMenu(){
     ModeMenu = new Menu("_Mode");
@@ -249,12 +209,23 @@ public class GUI2 extends Application {
     TopLineLine2.setStyle("-fx-background-color: #ccccb3");
     menulist.setStyle("-fx-background-color: #ccccb3");
     ToplineVBox.setStyle("-fx-background-color: #ccccb3");
-//    choiceBox.setStyle("-fx-background-color: #ccccb3");
-    ButtonOverview.setStyle("-fx-background-color: #ccccb3");
-    ButtonInterface.setStyle("-fx-background-color: #ccccb3");
-    ButtonNodes.setStyle("-fx-background-color: #ccccb3");
 
 }      
+
+    private class BackButton implements EventHandler<ActionEvent>{
+
+       
+        @Override
+        public void handle(ActionEvent event) {
+            if (event.getSource() == BackButton) {
+                switch(State){
+                    case "Plan":
+                        Contolloer.setScreenForPlanMode();
+                    default: break;
+                }
+            }
+        }
+    }
 
   private class P_2_PButtonChice implements EventHandler<ActionEvent>{       
 
@@ -264,25 +235,7 @@ public class GUI2 extends Application {
                 tabPane.getTabs().remove(tabP_2_P);
             }
         }
-    }
-
-  private class ButtonChoice implements EventHandler<ActionEvent>{
-
-        @Override
-        public void handle(ActionEvent event) {
-            if (event.getSource() == ButtonOverview) {
-                System.out.println("Overview");
-                Contolloer.Overview();
-            }
-            else if (event.getSource() == ButtonInterface) {
-                System.out.println("Interface");                
-                Contolloer.upDateInterface();
-            }
-            else if(event.getSource() == ButtonNodes){
-                System.out.println("Nodes");
-            }
-        }
-    }
+    } 
 
   private class ModeMenuChoice implements EventHandler<ActionEvent>{
 
@@ -492,11 +445,14 @@ public class GUI2 extends Application {
   public void topLineForPlanmode(){
      
       TopLineLine2 = new HBox();      
-      
+      TopLineLine2.setSpacing(20);
       //////Time Choise/////////////////////
         dateFormatter = DateTimeFormatter.ofPattern(pattern);
         DatePicer = new DatePicker(LocalDate.now());
         DatePicer.setShowWeekNumbers(true);
+        Tooltip tooltip = new Tooltip("Choose day, to see the missions belonging to that day");
+        tooltip.setWrapText(true);
+        DatePicer.setTooltip(tooltip);
         StringConverter converter = new StringConverter<LocalDate>(){
             @Override
             public String toString(LocalDate object) {
@@ -519,32 +475,49 @@ public class GUI2 extends Application {
             }
             
         };
-      
+         
     
-      Date d = new Date(2017, 05, 04, 14, 27, 0);
-       System.out.println(d.getYear());
        
-   //     checkInDatePicer.setConverter(converter);            
+        
         DatePicer.setPromptText(pattern.toLowerCase());
         Label label = new Label("Date of mision");
-        TopLineLine2.getChildren().addAll(label,DatePicer);
+        TopLineLine2.getChildren().addAll(label,DatePicer);        
+        ToplineVBox.getChildren().add(TopLineLine2);
+        root.setTop(ToplineVBox);
         
+  }
+  
+  public void topLineforEdeting(){
+       
+        
+        /////////////////////////////////////////////////////////////
+        TopLine.setAlignment(Pos.CENTER_LEFT);
+        TopLine.setSpacing(20);        
+        TopLine.getChildren().addAll(BackButton,menulist);
+        ToplineVBox.getChildren().clear();
+        TopLineLine2.getChildren().clear();       
+        TopLineLine2.setSpacing(20);
+        ToplineVBox.setSpacing(5);
+       
+               
+               
+       ToplineVBox.getChildren().addAll(TopLine,TopLineLine2);
+       
+       root.setTop(ToplineVBox);
   }
   
   public void screenForPlanMode(ObservableList<Task> Tasks){
       tabPlanScren = new Tab("Misions");
       tabPane.getTabs().clear();
+      TopLine.getChildren().clear();
       root.setLeft(null);
-      ToplineVBox.getChildren().remove(TopLineLine2);
-      
-     topLineForPlanmode();
-      
-     
-     
-     
+      ToplineVBox.getChildren().clear();      
+      topLineForPlanmode();
+      SetColor();
+      State = "Plan";
       ///Update level of ranks
       ObservableList<Integer> ratingSample = FXCollections.observableArrayList();
-        for (int i = 0; i < Tasks.size(); i++) {
+        for (int i = 1; i < Tasks.size()+1; i++) {
           ratingSample.add(i);           
         }
       
@@ -598,7 +571,12 @@ public class GUI2 extends Application {
                         ).setRank(t.getNewValue());
             }
         });
-        //////////////////////////////////////////////////////////////////////
+        //rankColumn.
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Double click at the rank number to change the value");
+        //tooltip.wrapTextProperty(true);
+        // Tooltip.install(rankColumn, tooltip);
+//////////////////////////////////////////////////////////////////////
  
        
         table.setItems(Tasks);
@@ -612,6 +590,8 @@ public class GUI2 extends Application {
                     Contolloer.ChoiseOfTaskPlanMode(clikrow);
                 }
             });
+            
+            
           return row;
         });
         
