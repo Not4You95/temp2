@@ -7,6 +7,7 @@ package model;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ public class GUImodel {
     private Orginasation OrgTemp;
     private Task taskTemp = null;
     private int taskLevel;
+    private LocalDate dayOfMission;
     
     
     
@@ -37,6 +39,11 @@ public class GUImodel {
         filename = new File("test.txt");       
     }
       
+    public void setDayOfMission(LocalDate date){
+     dayOfMission = date;
+        System.out.println("Datum: "+dayOfMission.getDayOfMonth());
+        
+    }
     
     
     public ArrayList<String> GetTaskNames(){
@@ -51,9 +58,14 @@ public class GUImodel {
     }
     
     public ObservableList<Task> getTaskList(){
-        ObservableList<Task> Tasks = FXCollections.observableArrayList();
-        Tasks.addAll(this.Tasks);
-        return Tasks;
+        ObservableList<Task> temp = FXCollections.observableArrayList();
+        for (int i = 0; i < Tasks.size(); i++) {
+            System.out.println( dayOfMission.getDayOfMonth());
+            if (dayOfMission.getDayOfMonth() == Tasks.get(i).getStartTime().getDayOfMonth() || dayOfMission.getDayOfMonth() == Tasks.get(i).getEndTime().getDayOfMonth()) {
+                temp.add(Tasks.get(i));
+            }
+        }
+        return temp;
         
     }
     
@@ -65,6 +77,13 @@ public class GUImodel {
         }
     }
     
+    public LocalDate getStarDate(){
+        return taskTemp.getStartTime();
+    }
+    
+    public LocalDate getEndDate(){
+        return taskTemp.getEndTime();
+    }    
     
     public void SaveToFile() throws IOException, AlertToUser{
            SaveAndRead.writeToFile(Org, filename);          

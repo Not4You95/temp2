@@ -107,7 +107,7 @@ public class GUI2 extends Application {
         BackButton = new Button("Back");
         ///////////////////////////////////////////////////////////////////////
         BackButton.addEventFilter(ActionEvent.ACTION, new BackButton());
-       
+        Contolloer.SetDate(LocalDate.now());
         menulist.getMenus().addAll(SetInterfacemMenu,P_2_P_Menu,SendMenu,ModeMenu);    
        
        
@@ -210,9 +210,17 @@ public class GUI2 extends Application {
     menulist.setStyle("-fx-background-color: #ccccb3");
     ToplineVBox.setStyle("-fx-background-color: #ccccb3");
 
-}      
+} 
 
-    private class BackButton implements EventHandler<ActionEvent>{
+  private class ChoiseOfDate implements EventHandler<ActionEvent>{
+
+               @Override
+        public void handle(ActionEvent event) {
+            Contolloer.SetDate(DatePicer.getValue());
+        }
+    } 
+   
+  private class BackButton implements EventHandler<ActionEvent>{
 
        
         @Override
@@ -322,7 +330,7 @@ public class GUI2 extends Application {
         }
     }   
     
-  public void  OverViewSceen(int Rank,String info){
+  public void  OverViewSceen(int Rank,String info,LocalDate startDate,LocalDate endDate){
         Net = new GridPane();
         CenterHBox = new HBox();
         CentetVBox = new VBox();
@@ -332,6 +340,7 @@ public class GUI2 extends Application {
         text.setMaxWidth(150);
         text.setPrefColumnCount(10);
         text.setWrapText(true);
+        text.setEditable(false);
         
         ////////////////////////////////////////////////////////////////
         System.out.println("This mision has priority: "+Rank);
@@ -340,6 +349,8 @@ public class GUI2 extends Application {
         ////////////////////////////////////////////////////////////////
         
         Label globalPriotet = new Label("This mision has priority: "+Rank);
+        Label startDayLabel = new Label("The mission begins at: "+startDate.toGMTString());
+        Label endDateLabel = new Label("The mission ends at: "+endDate.toGMTString());
        // Label globalQuality = new Label("of "+TotalRank);
         Net.setVgap(20);
         Net.setHgap(20);
@@ -350,8 +361,8 @@ public class GUI2 extends Application {
         
         //Label temp1 = new Label(GlobalPriorityIput.toString());
        // Label temp2 = new Label(GlobalQualityInput.toString());
-        //Net.add(temp1, 1, 2);
-        //Net.add(temp2, 1, 3);
+        Net.add(startDayLabel, 1, 2);
+        Net.add(endDateLabel, 1, 3);
         CentetVBox.getChildren().addAll(labelText,text);
         CenterHBox.setSpacing(20);
         CenterHBox.setAlignment(Pos.CENTER_LEFT);
@@ -480,6 +491,10 @@ public class GUI2 extends Application {
        
         
         DatePicer.setPromptText(pattern.toLowerCase());
+        System.out.println("Time: "+DatePicer.getValue());
+        
+        DatePicer.addEventHandler(ActionEvent.ACTION, new ChoiseOfDate());
+        //tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {Contolloer.newTabInterface(newvalue);});
         Label label = new Label("Date of mision");
         TopLineLine2.getChildren().addAll(label,DatePicer);        
         ToplineVBox.getChildren().add(TopLineLine2);
@@ -703,6 +718,7 @@ public class GUI2 extends Application {
               
       tabPane.getTabs().add(tab);
   }
+    
     
 }
 

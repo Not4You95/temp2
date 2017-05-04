@@ -6,6 +6,7 @@
 package model;
 
 import gui2.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.control.TreeItem;
 import model.*;
@@ -36,6 +37,11 @@ public class guiControler {
         
     }
     
+    public void SetDate(LocalDate date){
+        model.setDayOfMission(date);
+        setScreenForPlanMode();
+    }
+    
     public void setDesierdTask(int DesierdTask){
         if (DesierdTask >=0) {             
              model.choiseOfTask(DesierdTask);             
@@ -54,7 +60,7 @@ public class guiControler {
    
     
     public void Overview(){
-        gui.OverViewSceen(model.GetOrgPriorityForAll(),model.GetOrgInfo());
+        gui.OverViewSceen(model.GetOrgPriorityForAll(),model.GetOrgInfo(),model.getStarDate(),model.getEndDate());
        
     }
     
@@ -75,8 +81,8 @@ public class guiControler {
          gui.InterfaceMenu();
          gui.P_2_PMenu();
          gui.SendMenu();      
-          tempTask.clear();
-          gui.ModeMenu();      
+         tempTask.clear();
+         gui.ModeMenu();      
     }
     
     public void setScreenForPlanMode(){        

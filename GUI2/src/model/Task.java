@@ -25,8 +25,8 @@ public class Task implements Serializable{
      private SimpleStringProperty info = new SimpleStringProperty();
      private SimpleStringProperty orginsastion = new SimpleStringProperty();
      private IntegerProperty rank = new SimpleIntegerProperty();
-     private ObjectProperty StartTime = new SimpleObjectProperty();
-     private ObjectProperty EndTime = new SimpleObjectProperty();
+     private LocalDate StartTime ;
+     private LocalDate EndTime ;
      //private final priorityAndQulaityLevels priorityFromPlan ;
      
      
@@ -92,35 +92,7 @@ public class Task implements Serializable{
      */
     public void setRank(int rank) {
         this.rank.set(rank);
-    }
-
-    /**
-     * @return the StartTime
-     */
-    public Object getStartTime() {
-        return StartTime.get();
-    }
-
-    /**
-     * @param StartTime the StartTime to set
-     */
-    public void setStartTime(Date StartTime) {
-        this.StartTime.set(StartTime);
-    }
-
-    /**
-     * @return the EndTime
-     */
-    public Object getEndTime() {
-        return EndTime.get();
-    }
-
-    /**
-     * @param EndTime the EndTime to set
-     */
-    public void setEndTime(Date EndTime) {
-        this.EndTime.set(EndTime);
-    }
+    }    
 
     /**
      * @return the orginsastion
@@ -151,13 +123,32 @@ public class Task implements Serializable{
     }
 
     /**
-     * @param noder the noder to set
+     * @return the StartTime
      */
-   
-    
-    
-    
-    
-     
+    public LocalDate getStartTime() {
+        return StartTime;
+    }
+
+    /**
+     * @param StartTime the StartTime to set
+     */
+    public void setStartTime(LocalDate StartTime) {
+        this.StartTime = StartTime;
+    }
+
+    /**
+     * @return the EndTime
+     */
+    public LocalDate getEndTime() {
+        return EndTime;
+    }
+
+    /**
+     * @param EndTime the EndTime to set
+     */
+    public void setEndTime(LocalDate EndTime) {
+        this.EndTime = EndTime;
+    }
+
      
 }
