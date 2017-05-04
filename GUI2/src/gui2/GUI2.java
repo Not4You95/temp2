@@ -7,8 +7,12 @@ package gui2;
 
 import com.sun.javaws.Main;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,7 +86,7 @@ public class GUI2 extends Application {
    private Tab Overview,Interface,Nodes,tabPlanScren,tabP_2_P;
    private TabPane tabPane;
    private ArrayList<TreeItem> ListOfInterfaceArea,ListOfNodesArea;
-   private DatePicker checkInDatePicer;
+   private DatePicker DatePicer;
     private final String pattern = "yyyy-mm-dd";
     private DateTimeFormatter dateFormatter;
     @Override   
@@ -224,17 +228,7 @@ public class GUI2 extends Application {
     P_2_P_MenuItem = new MenuItem("P-2-P");
     P_2_P_MenuItem.addEventHandler(ActionEvent.ACTION, new MenuP_2_PChoice());
     P_2_P_Menu.getItems().add(P_2_P_MenuItem);
-}
-
-  public void OrgMenu(ArrayList<String> TasknName){
-    
-    choiceBox = new ComboBox<>();
-    //choiceBox.setStyle("-fx-Background-color: black");    
-    choiceBox.getItems().addAll(TasknName); 
-    choiceBox.setPromptText("Orginsation");
-    choiceBox.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> Contolloer.ChoiceOfOrg(newvalue));
-    
-}
+} 
   
   public void setListOfTask(){
     ListOfTasks = new ListView<String>();
@@ -262,7 +256,7 @@ public class GUI2 extends Application {
 
 }      
 
-  private  class P_2_PButtonChice implements EventHandler<ActionEvent>{       
+  private class P_2_PButtonChice implements EventHandler<ActionEvent>{       
 
         @Override
         public void handle(ActionEvent event) {
@@ -375,7 +369,7 @@ public class GUI2 extends Application {
         }
     }   
     
-  public void  OverViewSceen(priorityAndQulaityLevels GlobalPriorityIput,priorityAndQulaityLevels GlobalQualityInput,String info){
+  public void  OverViewSceen(int Rank,String info){
         Net = new GridPane();
         CenterHBox = new HBox();
         CentetVBox = new VBox();
@@ -387,24 +381,24 @@ public class GUI2 extends Application {
         text.setWrapText(true);
         
         ////////////////////////////////////////////////////////////////
-        System.out.println("Priority: "+GlobalPriorityIput.toString());
-        System.out.println("Quality: "+GlobalQualityInput.toString());
+        System.out.println("This mision has priority: "+Rank);
+        //System.out.println("of: "+TotalRank);
         System.out.println("Info: "+info);
         ////////////////////////////////////////////////////////////////
         
-        Label globalPriotet = new Label("Global Priority:");
-        Label globalQuality = new Label("Global Quality:");
+        Label globalPriotet = new Label("This mision has priority: "+Rank);
+       // Label globalQuality = new Label("of "+TotalRank);
         Net.setVgap(20);
         Net.setHgap(20);
         Net.setAlignment(Pos.TOP_CENTER);
         CentetVBox.setAlignment(Pos.TOP_CENTER);
         Net.add(globalPriotet,0,2);
-        Net.add(globalQuality, 0, 3);
+        //Net.add(globalQuality, 0, 3);
         
-        Label temp1 = new Label(GlobalPriorityIput.toString());
-        Label temp2 = new Label(GlobalQualityInput.toString());
-        Net.add(temp1, 1, 2);
-        Net.add(temp2, 1, 3);
+        //Label temp1 = new Label(GlobalPriorityIput.toString());
+       // Label temp2 = new Label(GlobalQualityInput.toString());
+        //Net.add(temp1, 1, 2);
+        //Net.add(temp2, 1, 3);
         CentetVBox.getChildren().addAll(labelText,text);
         CenterHBox.setSpacing(20);
         CenterHBox.setAlignment(Pos.CENTER_LEFT);
@@ -501,7 +495,8 @@ public class GUI2 extends Application {
       
       //////Time Choise/////////////////////
         dateFormatter = DateTimeFormatter.ofPattern(pattern);
-        checkInDatePicer = new DatePicker(LocalDate.now());
+        DatePicer = new DatePicker(LocalDate.now());
+        DatePicer.setShowWeekNumbers(true);
         StringConverter converter = new StringConverter<LocalDate>(){
             @Override
             public String toString(LocalDate object) {
@@ -524,10 +519,15 @@ public class GUI2 extends Application {
             }
             
         };
-   //     checkInDatePicer.setConverter(converter);
-        checkInDatePicer.setPromptText(pattern.toLowerCase());
+      
+    
+      Date d = new Date(2017, 05, 04, 14, 27, 0);
+       System.out.println(d.getYear());
+       
+   //     checkInDatePicer.setConverter(converter);            
+        DatePicer.setPromptText(pattern.toLowerCase());
         Label label = new Label("Date of mision");
-        TopLineLine2.getChildren().addAll(label,checkInDatePicer);
+        TopLineLine2.getChildren().addAll(label,DatePicer);
         
   }
   
@@ -542,16 +542,6 @@ public class GUI2 extends Application {
      
      
      
-      //////////////////////////
-      /* Callback<TableColumn, TableCell> integerCellFactory =
-                new Callback<TableColumn, TableCell>() {
-            @Override
-            public TableCell call(TableColumn p) {
-                MyIntegerTableCell cell = new MyIntegerTableCell();
-                cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new MyEventHandler());
-                return cell;
-            }
-        };*/
       ///Update level of ranks
       ObservableList<Integer> ratingSample = FXCollections.observableArrayList();
         for (int i = 0; i < Tasks.size(); i++) {
@@ -568,24 +558,22 @@ public class GUI2 extends Application {
         misionColumn.setMinWidth(200);
         misionColumn.setCellValueFactory(
             new PropertyValueFactory<Task, String>("Name"));
-      //  misionColumn.setCellFactory(TableCell.);
-        
- 
-       /* misionColumn.setOnEditCommit(
-            new EventHandler<TableColumn.CellEditEvent<Task, String>>() {
-                @Override
-                public void handle(TableColumn.CellEditEvent<Task, String> t) {
-                    Contolloer.ChoiseOfTaskPlanMode(t.getNewValue());
-                }
-            }
-        );*/
+      
  
  
         TableColumn InfoColumn = new TableColumn("Mision info");
         InfoColumn.setMinWidth(100);
         InfoColumn.setCellValueFactory(
             new PropertyValueFactory<Task, String>("info"));
-       // InfoColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+      
+        
+        /*TableColumn StartTimeColumn = new TableColumn("Start Time");
+        StartTimeColumn.setMinWidth(150);
+        StartTimeColumn.setCellValueFactory(new PropertyValueFactory<Task,Date>("StartTime"));
+        
+        TableColumn EndTimeColumn = new TableColumn("End time");
+        StartTimeColumn.setMaxWidth(150);
+        EndTimeColumn.setCellValueFactory(new PropertyValueFactory<Task,Date>("EndTime"));*/
        
  
         TableColumn OrgColumn = new TableColumn("Orginasation");
@@ -612,16 +600,16 @@ public class GUI2 extends Application {
         });
         //////////////////////////////////////////////////////////////////////
  
+       
         table.setItems(Tasks);
-        table.getColumns().addAll(misionColumn, rankColumn,OrgColumn ,InfoColumn);
-        table.getSelectionModel().selectionModeProperty().addListener((num) -> {Contolloer.ChoiseOfTaskPlanMode();});
-        //tree.getSelectionModel().selectedItemProperty().addListener((v,oldvalue,newvalue) -> {Contolloer.newTabInterface(newvalue);});     
+        table.getColumns().addAll(misionColumn, rankColumn,OrgColumn ,InfoColumn);           
         table.setRowFactory(tv -> {
             TableRow<Task> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if(! row.isEmpty() && event.getButton() == MouseButton.PRIMARY){
+                System.out.println(event.getPickResult().getIntersectedNode());
+                if(! row.isEmpty() && event.getButton() == MouseButton.PRIMARY && !event.getPickResult().getIntersectedNode().toString().toLowerCase().contains("ComboBoxTableCell".toLowerCase())){
                    Task clikrow = row.getItem();
-                    System.out.println(clikrow.getName());
+                    Contolloer.ChoiseOfTaskPlanMode(clikrow);
                 }
             });
           return row;

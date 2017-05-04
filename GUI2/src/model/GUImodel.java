@@ -8,6 +8,7 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
@@ -35,33 +36,14 @@ public class GUImodel {
         SaveAndRead = new ReadAndWriteToFile();
         filename = new File("test.txt");       
     }
-    
-    public ArrayList<String> GetOrgNames(){
-        ArrayList<String> temp = new ArrayList<String>();
-        for (int i = 0; i < Org.size(); i++) {
-            temp.add(Org.get(i).getName());
-        }
-        return temp;
-    }
-    
-    public void SetOrgName(String name){
-        OrgName = name;
-        
-        for (int i = 0; i < Org.size(); i++) {
-            if (Org.get(i).getName() == OrgName) {
-                OrgTemp = Org.get(i);
-                              
-            } 
-        }
-        
-    }
+      
     
     
     public ArrayList<String> GetTaskNames(){
         ArrayList<String> temp = new ArrayList<String>();
-        for (int i = 0; i < Org.size(); i++) {
+        for (int i = 0; i < Tasks.size(); i++) {
             if (Org.get(i).getName() == OrgName) {
-                temp.addAll(Org.get(i).GetTaskNames());               
+                temp.add(Tasks.get(i).getName());               
             } 
         }
         
@@ -73,6 +55,14 @@ public class GUImodel {
         Tasks.addAll(this.Tasks);
         return Tasks;
         
+    }
+    
+    public void settempTask(Task obejct){
+        for (int i = 0; i < Tasks.size(); i++) {
+           if (obejct.getName().toLowerCase().contains(Tasks.get(i).getName().toLowerCase())) {
+               taskTemp = Tasks.get(i);
+        } 
+        }
     }
     
     
@@ -97,10 +87,9 @@ public class GUImodel {
        return temp;
     }
     
-    public priorityAndQulaityLevels GetOrgPriorityForAll(){
-      priorityAndQulaityLevels temp;      
-       temp = OrgTemp.getPriotetForAllTSN();
-       return temp;
+    public int GetOrgPriorityForAll(){           
+     return taskTemp.getRank();
+       
     }
     
     public priorityAndQulaityLevels GetOrgQualityForAll(){
@@ -177,6 +166,14 @@ Control – System Management*/
        listInter.add(in3);
        listInter.add(in4);
        listInter.add(in5);
+       
+       Date start = new Date(2017, 05, 04, 14, 42);
+       Date end = new Date(2017, 05, 05,14 ,45);
+       task.setStartTime(start);
+       task.setEndTime(end);
+       
+       task2.setStartTime(start);
+       task2.setEndTime(end);
 
         
         TSN one = new TSN("UAV ISR Global");

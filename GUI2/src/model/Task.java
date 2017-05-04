@@ -8,8 +8,11 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -22,8 +25,8 @@ public class Task implements Serializable{
      private SimpleStringProperty info = new SimpleStringProperty();
      private SimpleStringProperty orginsastion = new SimpleStringProperty();
      private IntegerProperty rank = new SimpleIntegerProperty();
-     private LocalDate StartTime;
-     private LocalDate EndTime;
+     private ObjectProperty StartTime = new SimpleObjectProperty();
+     private ObjectProperty EndTime = new SimpleObjectProperty();
      //private final priorityAndQulaityLevels priorityFromPlan ;
      
      
@@ -93,29 +96,29 @@ public class Task implements Serializable{
     /**
      * @return the StartTime
      */
-    public LocalDate getStartTime() {
-        return StartTime;
+    public Object getStartTime() {
+        return StartTime.get();
     }
 
     /**
      * @param StartTime the StartTime to set
      */
-    public void setStartTime(LocalDate StartTime) {
-        this.StartTime = StartTime;
+    public void setStartTime(Date StartTime) {
+        this.StartTime.set(StartTime);
     }
 
     /**
      * @return the EndTime
      */
-    public LocalDate getEndTime() {
-        return EndTime;
+    public Object getEndTime() {
+        return EndTime.get();
     }
 
     /**
      * @param EndTime the EndTime to set
      */
-    public void setEndTime(LocalDate EndTime) {
-        this.EndTime = EndTime;
+    public void setEndTime(Date EndTime) {
+        this.EndTime.set(EndTime);
     }
 
     /**
