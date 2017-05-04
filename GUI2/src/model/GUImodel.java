@@ -8,8 +8,12 @@ package model;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.*;
@@ -41,7 +45,7 @@ public class GUImodel {
       
     public void setDayOfMission(LocalDate date){
      dayOfMission = date;
-        System.out.println("Datum: "+dayOfMission.getDayOfMonth());
+        //System.out.println("Datum: "+dayOfMission.getDayOfMonth());
         
     }
     
@@ -61,7 +65,7 @@ public class GUImodel {
         ObservableList<Task> temp = FXCollections.observableArrayList();
         for (int i = 0; i < Tasks.size(); i++) {
             System.out.println( dayOfMission.getDayOfMonth());
-            if (dayOfMission.getDayOfMonth() == Tasks.get(i).getStartTime().getDayOfMonth() || dayOfMission.getDayOfMonth() == Tasks.get(i).getEndTime().getDayOfMonth()) {
+            if (dayOfMission.getDayOfMonth() == Tasks.get(i).getStartTime().get(Calendar.DAY_OF_MONTH) || dayOfMission.getDayOfMonth() == Tasks.get(i).getEndTime().get(Calendar.DAY_OF_MONTH)) {
                 temp.add(Tasks.get(i));
             }
         }
@@ -73,15 +77,16 @@ public class GUImodel {
         for (int i = 0; i < Tasks.size(); i++) {
            if (obejct.getName().toLowerCase().contains(Tasks.get(i).getName().toLowerCase())) {
                taskTemp = Tasks.get(i);
+              
         } 
         }
     }
     
-    public LocalDate getStarDate(){
+    public Calendar getStarDate(){
         return taskTemp.getStartTime();
     }
     
-    public LocalDate getEndDate(){
+    public Calendar getEndDate(){
         return taskTemp.getEndTime();
     }    
     
@@ -185,15 +190,20 @@ Control – System Management*/
        listInter.add(in3);
        listInter.add(in4);
        listInter.add(in5);
+          GregorianCalendar c = new GregorianCalendar() ,c2 =  new GregorianCalendar();  ;
+          //Calendar cal = Calendar.getInstance();
+         
+          System.out.println(LocalDate.now().getDayOfWeek().getValue());
+       c.set(LocalDate.now().getYear(), LocalDate.now().getMonthValue()-1, LocalDate.now().getDayOfMonth() ,LocalTime.now().getHour(),LocalTime.now().getMinute());
+    //  c.se
+      
+       c2.set(LocalDate.now().getYear(), LocalDate.now().getMonthValue()-1, LocalDate.now().getDayOfMonth()+2,LocalTime.now().getHour()+5 ,LocalTime.now().getMinute());
+       task.setStartTime(c);
+       task.setEndTime(c2);
        
-       Date start = new Date(2017, 05, 04, 14, 42);
-       Date end = new Date(2017, 05, 05,14 ,45);
-       task.setStartTime(start);
-       task.setEndTime(end);
-       
-       task2.setStartTime(start);
-       task2.setEndTime(end);
-
+       task2.setStartTime(c);
+       task2.setEndTime(c2);
+        //  System.out.println(getStarDate().getCalendarType());
         
         TSN one = new TSN("UAV ISR Global");
         one.setType(TSNTypes.UAV);

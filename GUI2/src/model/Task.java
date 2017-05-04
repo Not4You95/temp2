@@ -8,6 +8,7 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -25,8 +26,8 @@ public class Task implements Serializable{
      private SimpleStringProperty info = new SimpleStringProperty();
      private SimpleStringProperty orginsastion = new SimpleStringProperty();
      private IntegerProperty rank = new SimpleIntegerProperty();
-     private LocalDate StartTime ;
-     private LocalDate EndTime ;
+     private Calendar StartTime ;
+     private Calendar EndTime ;
      //private final priorityAndQulaityLevels priorityFromPlan ;
      
      
@@ -125,30 +126,32 @@ public class Task implements Serializable{
     /**
      * @return the StartTime
      */
-    public LocalDate getStartTime() {
+    public Calendar getStartTime() {
         return StartTime;
     }
 
     /**
      * @param StartTime the StartTime to set
      */
-    public void setStartTime(LocalDate StartTime) {
+    public void setStartTime(Calendar StartTime) {
         this.StartTime = StartTime;
     }
 
     /**
      * @return the EndTime
      */
-    public LocalDate getEndTime() {
+    public Calendar getEndTime() {
         return EndTime;
     }
 
     /**
      * @param EndTime the EndTime to set
      */
-    public void setEndTime(LocalDate EndTime) {
+    public void setEndTime(Calendar EndTime) {
         this.EndTime = EndTime;
     }
+
+   
 
      
 }

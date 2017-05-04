@@ -330,7 +330,7 @@ public class GUI2 extends Application {
         }
     }   
     
-  public void  OverViewSceen(int Rank,String info,LocalDate startDate,LocalDate endDate){
+  public void  OverViewSceen(int Rank,String info,Calendar startDate,Calendar endDate){
         Net = new GridPane();
         CenterHBox = new HBox();
         CentetVBox = new VBox();
@@ -345,12 +345,12 @@ public class GUI2 extends Application {
         ////////////////////////////////////////////////////////////////
         System.out.println("This mision has priority: "+Rank);
         //System.out.println("of: "+TotalRank);
-        System.out.println("Info: "+info);
+        
         ////////////////////////////////////////////////////////////////
         
         Label globalPriotet = new Label("This mision has priority: "+Rank);
-        Label startDayLabel = new Label("The mission begins at: "+startDate.toGMTString());
-        Label endDateLabel = new Label("The mission ends at: "+endDate.toGMTString());
+        Label startDayLabel = new Label("The mission begins at: "+startDate.getTime());
+        Label endDateLabel = new Label("The mission ends at: "+endDate.getTime());
        // Label globalQuality = new Label("of "+TotalRank);
         Net.setVgap(20);
         Net.setHgap(20);
