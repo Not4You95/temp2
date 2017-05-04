@@ -6,19 +6,21 @@
 package gui2;
 
 import com.sun.javaws.Main;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -37,6 +39,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -44,6 +47,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import model.InterfaceTypes;
 import model.TSNTypes;
 import model.Task;
@@ -73,7 +77,10 @@ public class GUI2 extends Application {
    private GridPane Net;
    private Tab Overview,Interface,Nodes,tabPlanScren,tabP_2_P;
    private TabPane tabPane;
-  private ArrayList<TreeItem> ListOfInterfaceArea,ListOfNodesArea;
+   private ArrayList<TreeItem> ListOfInterfaceArea,ListOfNodesArea;
+   private DatePicker checkInDatePicer;
+    private final String pattern = "yyyy-mm-dd";
+    private DateTimeFormatter dateFormatter;
     @Override   
     
     public void start(Stage primaryStage) {
@@ -98,8 +105,8 @@ public class GUI2 extends Application {
            
         /////////////////////Menu ////////////////////////////////////////
        
-        Label Orginations = new Label("Organization:");
-        Label Task = new Label("Task");
+        
+       
         ///////////////////////Task Menu///////////////////////////////////////////
        
         
@@ -119,11 +126,11 @@ public class GUI2 extends Application {
         
         TopLine.getChildren().addAll(menulist); 
         TopLineLine2.setSpacing(20);
-        TopLineLine2.getChildren().addAll(Task);
+        ToplineVBox.setSpacing(5);
        
                
                
-       ToplineVBox.getChildren().addAll(TopLine);
+       ToplineVBox.getChildren().addAll(TopLine,TopLineLine2);
        
        root.setTop(ToplineVBox);
        root.setCenter(tabPane);
@@ -152,6 +159,8 @@ public class GUI2 extends Application {
    }
   
   public void SetScreenForLiveMode(){
+       Label Task = new Label("Task");
+      TopLineLine2.getChildren().addAll(Task);
       tabPane.getTabs().clear();
       ToplineVBox.getChildren().add(TopLineLine2);
       root.setLeft(ListOfTasks);
@@ -241,12 +250,13 @@ public class GUI2 extends Application {
     TopLine.setStyle("-fx-background-color: #ccccb3");
     TopLineLine2.setStyle("-fx-background-color: #ccccb3");
     menulist.setStyle("-fx-background-color: #ccccb3");
-    choiceBox.setStyle("-fx-background-color: #ccccb3");
+    ToplineVBox.setStyle("-fx-background-color: #ccccb3");
+//    choiceBox.setStyle("-fx-background-color: #ccccb3");
     ButtonOverview.setStyle("-fx-background-color: #ccccb3");
     ButtonInterface.setStyle("-fx-background-color: #ccccb3");
     ButtonNodes.setStyle("-fx-background-color: #ccccb3");
 
-}    
+}      
 
   private  class P_2_PButtonChice implements EventHandler<ActionEvent>{       
 
@@ -481,23 +491,73 @@ public class GUI2 extends Application {
       }
   }
   
+  public void topLineForPlanmode(){
+     
+      TopLineLine2 = new HBox();      
+      
+      //////Time Choise/////////////////////
+        dateFormatter = DateTimeFormatter.ofPattern(pattern);
+        checkInDatePicer = new DatePicker(LocalDate.now());
+        StringConverter converter = new StringConverter<LocalDate>(){
+            @Override
+            public String toString(LocalDate object) {
+                if (object != null) {
+                    return dateFormatter.format(object);
+                }
+                else{
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if (string != null && !string.isEmpty()) {
+                    return LocalDate.parse(string, dateFormatter);
+                }
+                else{
+                    return null;
+                }
+            }
+            
+        };
+   //     checkInDatePicer.setConverter(converter);
+        checkInDatePicer.setPromptText(pattern.toLowerCase());
+        Label label = new Label("Date of mision");
+        TopLineLine2.getChildren().addAll(label,checkInDatePicer);
+        
+  }
+  
   public void screenForPlanMode(ObservableList<Task> Tasks){
       tabPlanScren = new Tab("Misions");
       tabPane.getTabs().clear();
       root.setLeft(null);
       ToplineVBox.getChildren().remove(TopLineLine2);
       
-      TableView<Task> table = new TableView<>();
+     topLineForPlanmode();
+      
+      //////////////////////////
+      
+      ///Update level of ranks
       ObservableList<Integer> ratingSample = FXCollections.observableArrayList();
         for (int i = 0; i < Tasks.size(); i++) {
           ratingSample.add(i);           
         }
+      
+        // Tabels
+      TableView<Task> table = new TableView<>();     
       
       
         TableColumn<Task,String> nameColum = new TableColumn<>("Mision");
         nameColum.setMinWidth(200);
         nameColum.setCellValueFactory(new PropertyValueFactory<>("name"));
         
+        nameColum.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Task, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<Task, String> event) {
+              //Contolloer.ChoiseOfTaskPlanMode(event.getNewValue());
+              System.out.println("hello");
+          }
+      });
         
          TableColumn<Task,String> infoColum = new TableColumn<>("Info");
          infoColum.setMinWidth(200);
@@ -521,7 +581,7 @@ public class GUI2 extends Application {
           @Override
           public void handle(TableColumn.CellEditEvent<Task, Integer> event) {
              ((Task) event.getTableView().getItems().get(event.getTablePosition().getRow())).setRank(event.getNewValue());
-             
+              System.out.println("Rank");
           }
       });
           
@@ -538,35 +598,18 @@ public class GUI2 extends Application {
                            //choice.getSelectionModel().select(ratingSample.indexOf(item));
                            //SETTING ALL THE GRAPHICS COMPONENT FOR CELL
                            setGraphic(choice);
+                          
                         } 
                   }
               };
               return cell;
           }
-      });
-        
-       /*  rating.setCellFactory(new Callback<TableColumn<Music,Integer>,TableCell<Music,Integer>>(){        
-            @Override
-            public TableCell<Music, Integer> call(TableColumn<Music, Integer> param) {                
-                TableCell<Music, Integer> cell = new TableCell<Music, Integer>(){
-                    @Override
-                    public void updateItem(Integer item, boolean empty) {
-                        if(item!=null){
-                            
-                           ChoiceBox choice = new ChoiceBox(ratingSample);                                                      
-                           choice.getSelectionModel().select(ratingSample.indexOf(item));
-                           //SETTING ALL THE GRAPHICS COMPONENT FOR CELL
-                           setGraphic(choice);
-                        } 
-                    }
-                };                           
-                return cell;
-            }
-            
-        }); */ 
+      });        
+       
+       
         
         table.setItems(Tasks);
-        table.getColumns().addAll(nameColum,SetRank,infoColum,QuantityColum);
+        table.getColumns().addAll(nameColum,SetRank,OrgName,infoColum,QuantityColum);
         
         VBox box = new VBox();
         box.getChildren().add(table);

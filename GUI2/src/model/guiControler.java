@@ -61,7 +61,7 @@ public class guiControler {
     }
     
     public void setScreen(){
-        gui.OrgMenu(model.GetOrgNames());
+       // gui.OrgMenu(model.GetOrgNames());
         gui.TaskMenu();
         gui.InterfaceMenu();
         gui.P_2_PMenu();
@@ -71,19 +71,38 @@ public class guiControler {
         tempTask.clear();
         gui.ModeMenu();
         modeState(Plan, Live, Simulate);
-        UppdateScreen();
+        //UppdateScreen();
         
+    }
+    public void setScreenLiveMode(){
+         gui.TaskMenu();
+        gui.InterfaceMenu();
+        gui.P_2_PMenu();
+        gui.SendMenu();
+        gui.ButtonTopLine();
+       // gui.setListOfTask();
+        tempTask.clear();
+        gui.ModeMenu();
+       // modeState(Plan, Live, Simulate);
     }
     
     public void setScreenForPlanMode(){
+         gui.TaskMenu();
+        gui.InterfaceMenu();
+        gui.P_2_PMenu();
         gui.screenForPlanMode(model.getTaskList());
+      //  gui.topLineForPlanmode();
+    }
+    
+    public void ChoiseOfTaskPlanMode(String obejct){
+        System.out.println(obejct);
     }
     
     public void UppdateScreen(){          
         
         
         if (Plan) {
-            gui.screenForPlanMode(model.getTaskList());
+            setScreenForPlanMode();
           
             
         }else if(Live){
