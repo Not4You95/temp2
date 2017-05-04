@@ -117,7 +117,7 @@ public class GUI2 extends Application {
         TopLine.setAlignment(Pos.CENTER_LEFT);
         TopLine.setSpacing(20);
         
-        TopLine.getChildren().addAll(choiceBox,menulist); 
+        TopLine.getChildren().addAll(menulist); 
         TopLineLine2.setSpacing(20);
         TopLineLine2.getChildren().addAll(Task);
        
@@ -506,6 +506,10 @@ public class GUI2 extends Application {
          TableColumn<Task,String> QuantityColum = new TableColumn<>("Priority");
         QuantityColum.setMinWidth(100);
         QuantityColum.setCellValueFactory(new PropertyValueFactory<>("priorityFromPlan"));
+        
+        TableColumn<Task,String> OrgName = new TableColumn<>("Orginasation");
+        OrgName.setMinWidth(100);
+        OrgName.setCellValueFactory(new PropertyValueFactory<>("orginsastion"));
         
         TableColumn<Task,Integer> SetRank = new TableColumn<>("Rank");
         SetRank.setMinWidth(100);

@@ -71,7 +71,12 @@ public class guiControler {
         tempTask.clear();
         gui.ModeMenu();
         modeState(Plan, Live, Simulate);
+        UppdateScreen();
         
+    }
+    
+    public void setScreenForPlanMode(){
+        gui.screenForPlanMode(model.getTaskList());
     }
     
     public void UppdateScreen(){          

@@ -18,6 +18,7 @@ import model.*;
  */
 public class GUImodel {
     private ArrayList<Orginasation> Org;
+    private ArrayList<Task> Tasks;
     private ReadAndWriteToFile SaveAndRead;
     private File filename;
     private String OrgName;
@@ -30,6 +31,7 @@ public class GUImodel {
     
     public GUImodel(){
         Org = new ArrayList<Orginasation>();
+        Tasks = new ArrayList<Task>();
         SaveAndRead = new ReadAndWriteToFile();
         filename = new File("test.txt");       
     }
@@ -68,11 +70,7 @@ public class GUImodel {
     
     public ObservableList<Task> getTaskList(){
         ObservableList<Task> Tasks = FXCollections.observableArrayList();
-        for (int i = 0; i < Org.size(); i++) {
-            if (Org.get(i).getName() == OrgName) {
-                Tasks.addAll(Org.get(i).getTasks());
-            } 
-        }
+        Tasks.addAll(this.Tasks);
         return Tasks;
         
     }
@@ -153,8 +151,8 @@ public class GUImodel {
       public void test() {
           ArrayList<TSN> temp = new ArrayList<TSN>();
         ArrayList<Orginasation> orgList = new ArrayList<Orginasation>();
-        Task task = new Task("Defend the candy");
-        Task task2 = new Task("Defend the hill");
+        Task task = new Task("Defend the hill", "Test", "7 Bataljonen");
+        Task task2 = new Task("Defend the the food reserv","Test","Livgardet");
         ArrayList<Task> taskList = new ArrayList<Task>();
         Orginasation Gotland = new Orginasation();
         Orginasation Blidö = new Orginasation();
@@ -222,6 +220,8 @@ Control – System Management*/
         task2.setNoder(temp);
         taskList.add(task);
         taskList.add(task2);
+        Tasks.add(task);
+        Tasks.add(task2);
         /////////////////////////////////////////////////////
         Gotland.setTasks(taskList);
         Gotland.setName("Gotland");

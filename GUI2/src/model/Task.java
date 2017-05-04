@@ -16,16 +16,20 @@ public class Task implements Serializable{
      private ArrayList<TSN> noder;
      private String Name;
      private String info;
+     private String orginsastion;
      private int rank ;
      private priorityAndQulaityLevels priorityFromPlan ;
      
      
      
      
-     public Task(String name){
+     public Task(String name,String info, String Orginsation){
          this.Name = name;
          noder = new ArrayList<TSN>();
+         this.info = info;
+         this.orginsastion = Orginsation;
      }
+     
      public Task(){
          noder = new ArrayList<TSN>();
      }
@@ -108,6 +112,20 @@ public class Task implements Serializable{
      */
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    /**
+     * @return the orginsastion
+     */
+    public String getOrginsastion() {
+        return orginsastion;
+    }
+
+    /**
+     * @param orginsastion the orginsastion to set
+     */
+    public void setOrginsastion(String orginsastion) {
+        this.orginsastion = orginsastion;
     }
     
     
